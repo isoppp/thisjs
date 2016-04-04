@@ -1,96 +1,144 @@
+class: middle, center
 # 1 this
 
+---
+class: middle, center
+# 問題
+### ブラウザで実行した場合の結果はどうなるか
 
-## 問題
-ブラウザで実行した場合の結果はどうなるか
+---
+class: pdt100, center
+## Q1
 
-__Q1__
-
+```javascript
+console.log(this === window) //q1;
 ```
-console.log(this === window); //true
-```
 
-__Q2__
+--
+### true
 
-```
+---
+class: pdt100, center
+## Q2
+
+```javascript
 function q2(){
     console.log(this === window);
 }
 
-q2(); // true
+q2();  //q2;
 ```
 
-__Q3__
+--
+### true
 
-```
+---
+class: pdt100, center
+## Q3
+
+```javascript
 var q3 = { 
     q3m: function(){
         console.log(this === window);
     } 
 };
 
-q3.q3m(); // false
+q3.q3m();  //q3;
 ```
 
-__Q4__
+--
+### false
 
-```
+---
+class: pdt100, center
+## Q4
+
+```javascript
 function Q4(){
     console.log(this === window);
 }    
 
-new Q4(); // false
+new Q4();  //q4;
 ```
 
-__Q5__
+--
+### false
 
-```
+---
+class: pdt100, center
+## Q5
+
+```javascript
 var q5 = {
     q5Func : function (){
         console.log(this === window);
     }
 }
 
-q5.q5Func(); // false
-q5.q5Func.apply(window); //true
+q5.q5Func(); //q5-1
+q5.q5Func.apply(window); //q5-2
 ```
 
-## 今日のゴール
+--
+### false/false
 
-thisの変化パターンをなんとなく知ること。
-覚えることは目的としない。（きっと忘れる）
+---
+class: middle, center
 
-## thisの種類
+# 今日のゴール
 
-**thisの参照の種類は4種類ある**
+---
+class: pdt100, center
+### thisの変化パターンをなんとなく知ること。<br>
+### どうせ忘れるので覚えることは目的としない。
+--
+<br>
+<br>
+こんなこと知ってるよって方はすんません…
+
+---
+class: middle, center
+# thisの種類
+
+---
+class: middle, center
+## thisの参照の種類は4種類ある<br>
 知ってる方は置いといて知らなかった人はこれだけは覚えて帰ってください。
 
-## その前にglobalのthisの話
+---
+class: middle, center
+# と、その前にglobalのthisの話
 
-globalのthisの話
+---
+### Q1
 
-Q1
-
-```
+```javascript
 console.log(this === window); //true
 ```
 
 ブラウザで実行するとglobalのthisはwindowオブジェクトになります。
 
-```
+```javascript
 console.log(this); // window object
 ```
-
-**TIPS**
-これはブラウザではglobalにwindowオブジェクトが定義されているためで、javascriptのglobalはwindowだ、という理解では間違っています。
-例えばですが、node.jsでは異なる定義がされています。
+--
+<br>
+__TIPS__<br>
+これはブラウザではglobalにwindowオブジェクトが定義されているためで、javascriptのglobalはwindowだ、という理解では間違っています。<br>
+例えばですが、node.jsでは異なる定義がされています。<br>
 気になる方は`node`→`console.log(this);`してみてください。
 
-## 1. 関数呼び出しパターン
+---
+class: middle, center
+# 4種類のthis
 
+---
+class: middle, center
+## 1. 関数呼び出しパターン
+---
 Q2
 
-```
+```javascript
 function q2(){
     console.log(this === window);
 }
@@ -100,11 +148,13 @@ q2(); // true
 
 function hoge...として定義された関数の中のthisはglobalを参照します。
 
+---
+class: middle, center
 ## 2. メソッド呼び出しパターン
-
+---
 Q3
 
-```
+```javascript
 var q3 = { 
     q3m: function(){
         console.log(this === window);
@@ -116,21 +166,25 @@ q3.q3m(); // false
 
 オブジェクトの中に定義された**メソッドのthis参照**はそのオブジェクトがthisとして返されます。この場合はq3がthisとして返されます。
 
+---
+class: middle, center
 ## 関数とメソッド
 
-関数とメソッドの差がよく分からない？
+関数とメソッドの差がよく分からない？<br>
 簡単に説明するなら呼び出し時の記載方法をイメージすると良い。
 
-```
+```javascript
 xxx.yyy(); // メソッド
 yyy(); // 関数
 ```
 
+---
+class: middle, center
 ## 3. コンストラクタ呼び出しパターン
-
+---
 Q4
 
-```
+```javascript
 function Q4(){
     console.log(this === window);
 }    
@@ -144,10 +198,12 @@ new されて新しいインスタンスが生成される場合、その中のt
 
 この事からnewするかしないかでthisの参照が変わってしまうため、newを付けてインスタンスの初期化をして利用すべき物はUpper Camelの命名が用いられる事が多い。
 
+---
+class: middle, center
 **用語**
 インスタンス：
 
-```
+```text
 オブジェクト指向言語においては、多くの場合クラスと呼ばれるものを元に作成したオブジェクトの実体を指す。 by wikipedia
 ```
 
@@ -155,17 +211,19 @@ new されて新しいインスタンスが生成される場合、その中のt
 
 コンストラクタ：
 
-```
+```text
 新たなオブジェクトを生成する際に呼び出されて内容の初期化などを行なう関数、メソッドのことである。 by wikipedia
 ```
 
 オブジェクトを生成する際の初期化処理。
 
+---
+class: middle, center
 ## 4. call applyパターン
 
 Q5
 
-```
+```javascript
 var q5 = {
     q5Func : function (){
         console.log(this === window);
