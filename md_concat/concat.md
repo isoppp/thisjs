@@ -3,14 +3,88 @@ class: middle
 # thisから始まるjavascript
 ---
 
+class: middle,center
+
+# javascriptは好きですか？
+---
+
+class: middle,center
+
+# javascriptつらい派閥に入ってます。
+---
 class: middle
+## 適当紹介
 
+元々はゲームの音屋さん。<br>
+仕事が暇すぎて何か色々手を出し初めて...
+
+- pythonでターミナルで動く[マスターマインド](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9E%E3%82%A4%E3%83%B3%E3%83%89)作る
+- Unityでアプリを作る（C#)
+- この間ハイパー雑用係として色々何かやる
+- Titanium mobileでアプリを作る(javascript)
+- Web楽しそうでWebに業界にダイブしてみる。<br>
+- ~~jsつらい…（今ここ）~~
+---
+class: middle,center
+
+# 何これ？
+---
+class: middle,center
+
+# javascriptって難しいよ！
+###って話をします
+
+---
+class: middle
+jsというかフロントの世界って.marker[動くコードと質の高いコードの幅]がかなりある。<br>
+だからスキルレベルもかなりの幅がある世界。<br>
+
+動けばいいでしょ！と言われても完全否定はできない、<br>
+でも一応ご飯食べていくならちゃんと理解して書こうという話。
+
+今後の流れとしてもjavascriptはちょいちょい難しくなっていくというか<br>
+.marker[フロントエンジニアのカバー範囲が増えていく]流れ<br>
+
+---
+.u-tac[
+## 最近
+]
+最近求人でこの辺のスキルを必要とされたりするようになってきた。<br><br>
+
+.borderBox[
+html : jade/slim等のテンプレートエンジン<br>
+css : scss/stylus/less等のメタ言語の知識とBEM/SMACSS等のOOCSSの知識<br>
+js : ES6(ES2015)/React/node.js/npm<br>
+]
+
+---
+class: middle,center
+# 多すぎわろた(^p^）
+
+---
+class: middle,center
+
+~~まぁいいや~~
+# 現実逃避してjsの勉強
+
+---
+class: middle,center
+.u-tac.u-mgb30[
+# thisから始まるjavascript
+]
+
+---
+class: middle
+.u-mgl60[
 # agenda
-
+.u-fs24[
 1  this<br>
 2  closure<br>
 3  types<br>
 4  prototype<br>
+]
+]
+
 ---
 class: middle, center
 # 1 this
@@ -21,7 +95,7 @@ class: middle, center
 ### ブラウザで実行した場合の結果はどうなるか
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q1
 
 ```javascript
@@ -32,7 +106,7 @@ console.log(this === window) //q1;
 ### true
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q2
 
 ```javascript
@@ -47,7 +121,7 @@ q2();  //q2;
 ### true
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q3
 
 ```javascript
@@ -64,7 +138,7 @@ q3.q3m();  //q3;
 ### false
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q4
 
 ```javascript
@@ -79,7 +153,7 @@ new Q4();  //q4;
 ### false
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q5
 
 ```javascript
@@ -94,7 +168,7 @@ q5.q5Func.apply(window); //q5-2
 ```
 
 --
-### false/false
+### false/true
 
 ---
 class: middle, center
@@ -102,10 +176,11 @@ class: middle, center
 # 今日のゴール
 
 ---
-class: pdt100, center
-### thisの変化パターンをなんとなく知ること。<br>
+class: middle, center
+.markerSIn[
+### thisの変化パターンをなんとなく知ること。
+]
 ### どうせ忘れるので覚えることは目的としない。
---
 <br>
 <br>
 こんなこと知ってるよって方はすんません…
@@ -116,12 +191,14 @@ class: middle, center
 
 ---
 class: middle, center
-## thisの参照の種類は4種類ある<br>
-知ってる方は置いといて知らなかった人はこれだけは覚えて帰ってください。
+.markerSIn[
+## 「thisの参照の種類は4種類ある」<br>
+]
+今日のテストはこれだけ！
 
 ---
 class: middle, center
-# と、その前にglobalのthisの話
+# と、その前に.markerS[globalのthis]の話
 
 ---
 ### Q1

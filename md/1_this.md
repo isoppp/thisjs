@@ -7,7 +7,7 @@ class: middle, center
 ### ブラウザで実行した場合の結果はどうなるか
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q1
 
 ```javascript
@@ -18,7 +18,7 @@ console.log(this === window) //q1;
 ### true
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q2
 
 ```javascript
@@ -33,7 +33,7 @@ q2();  //q2;
 ### true
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q3
 
 ```javascript
@@ -50,7 +50,7 @@ q3.q3m();  //q3;
 ### false
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q4
 
 ```javascript
@@ -65,7 +65,7 @@ new Q4();  //q4;
 ### false
 
 ---
-class: pdt100, center
+class: u-pdt60, center
 ## Q5
 
 ```javascript
@@ -80,7 +80,7 @@ q5.q5Func.apply(window); //q5-2
 ```
 
 --
-### false/false
+### false/true
 
 ---
 class: middle, center
@@ -88,10 +88,11 @@ class: middle, center
 # 今日のゴール
 
 ---
-class: pdt100, center
-### thisの変化パターンをなんとなく知ること。<br>
+class: middle, center
+.markerSIn[
+### thisの変化パターンをなんとなく知ること。
+]
 ### どうせ忘れるので覚えることは目的としない。
---
 <br>
 <br>
 こんなこと知ってるよって方はすんません…
@@ -102,12 +103,14 @@ class: middle, center
 
 ---
 class: middle, center
-## thisの参照の種類は4種類ある<br>
-知ってる方は置いといて知らなかった人はこれだけは覚えて帰ってください。
+.markerSIn[
+## 「thisの参照の種類は4種類ある」<br>
+]
+今日のテストはこれだけ！
 
 ---
 class: middle, center
-# と、その前にglobalのthisの話
+# と、その前に.markerS[globalのthis]の話
 
 ---
 ### Q1
