@@ -1,50 +1,90 @@
 ---
 class: middle, center
 
-# 4. prototype
+.markerIn[
+# prototype
+]
 
 ---
 class: middle, center
 
 ## prototype
+JavaScript におけるすべてのオブジェクトは Object に由来します。<br>
+すべてのオブジェクトはObject.prototype からメソッドとプロパティを継承しています。<br>
+by MDN
 
-JavaScript におけるすべてのオブジェクトは Object に由来します。すべてのオブジェクトはObject.prototype からメソッドとプロパティを継承しています。by MDN
+---
+class: middle, center
 
-functionを宣言すると内部的にFunctionオブジェクトがnewされていて、prototypeプロパティを持っています。
+# 前置き
+---
+class: middle
+.marker[functionを宣言すると内部的にFunctionオブジェクトがnewされる。]
+
+そして.marker[全てのオブジェクトはprototypeプロパティ]を持つ。
+
+prototypeは.marker[生成時に.__proto__に参照がセット]され、これらは一致する。
 
 ```
-function hoge(){}
+function hoge(){} // この時点でFunctionオブジェクトが生成され初期化されている
  console.log(hoge.prototype); // log Object {}
+ console.log(hoge.prototype === hoge.__proto__); // true
 ```
 
-** 注意 **
-今回はprototypeへの参照は`__proto__`で行う。という前提でソースを書きます。
-ES6では`__proto__`は標準仕様に含まれましたが、ES5ではなんとも言えないので、その辺は一旦棚上げ。
+---
+class: middle
+
+今回はprototypeへの参照は`__proto__`で行います。<br>
+ただこの`__proto__`は.marker[ES5の標準仕様には含まれていません]。<br>
+実装はブラウザ依存となっているので、IEはIE11からの対応となっています。
+
+読み替えはこんな感じで！
+```
+function Hoge(){}
+Hoge.prototype.xxx = 0;
+var hoge = new Hoge();
+hoge.__proto__.xxx === Hoge.prototype.xxx
+```
+
+ちなみにES6では`__proto__`は標準仕様に含まれました。<br>
+が、同時にclass構文も実装されたりしているので、<br>
+あまり使用する機会がないかもしれません。
 
 ---
 class: middle, center
 ## prototype chain
 
-```
+---
+class: middle
+.borderBox[
 オブジェクトはプロトタイプと呼ばれる、他のオブジェクト（または null ）への内部的な繋がりを持っています。
 このプロトタイプオブジェクトは、あるオブジェクトがそのプロトタイプとして nullを持つまで、プロトタイプを継承します。
 このような、オブジェクトが他のオブジェクトのプロトタイプとなる連鎖を、プロトタイプチェーンと呼びます。
 by MDN
-```
+]
 
-ようするにnullになるまでprototypeを辿っていくという話。
-nullになるのはObject.prototype.hogeから遡った場合。
+--
 
-そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。
+nullになるまでprototypeを辿っていくという話。<br>
+nullになるのはObject.prototypeをさらに辿った場合にnullとなる。
+
+そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。<br>
 これも実は`Object.prototype.hasOwnProperty`から継承されてきているという話。
 
 ---
 class: middle, center
+# よく分からなすぎてつらい
+
+
+---
+class: middle, center
+
 ```
 // 0. この時点でTestというFunctionオブジェクトが生成される。
 function Test(){}
 
-// 1. Test自身がhasOwnPropertyを持っているかを調べる console.log(Test.hasOwnProperty('hasOwnProperty')); // false
+// 1. Test自身がhasOwnPropertyを持っているかを調べる 
+console.log(Test.hasOwnProperty('hasOwnProperty')); // false
 
 // 2. TestのprototypeがhasOwnPropertyを持っているかを調べる
  console.log(Test.__proto__.hasOwnProperty('hasOwnProperty')); // false
@@ -53,21 +93,23 @@ function Test(){}
  console.log(Test.hasOwnProperty === Test.__proto__.hasOwnProperty); // true
 
 // 4. Test.__proto__.__proto___ は元のObjectを指している
-
  console.log(Test.__proto__.__proto__); // {}               
  console.log(Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
 
 // 5. Test.__proto__.__proto__.__proto__ はオブジェクトまで遡ったためnullを返す
-// どこから参照してもここまでプロパティを遡って探しに行きます。
-
+// どこから参照してもここまで辿って参照を探しに行きます。
 console.log(Test.__proto__.__proto__.__proto__); // null
-  console.log(Test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // TypeError: Cannot read property 'hasOwnProperty' of null
+
+// TypeError: Cannot read property 'hasOwnProperty' of null
+ console.log(Test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty'));
 ```
 
-Test.hasOwnProertyは使用できますが、これはようするに、
-`Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')`
-ここまでprototypeが参照を遡っているということです。
-Function.prototypeを参照して、Object.prototypeを参照してその先がないのでnullとなります。
+---
+
+Test.hasOwnProertyは使用できますが、これはようするに、<br>
+`Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')`<br>
+ここまでprototypeが参照を遡っているということです。<br>
+Function.prototypeを参照して、Object.prototypeを参照してその先がないのでnullとなります。<br>
 
 これがprototype chainです。
 はい、よくわかりませんね。ええ。
@@ -108,6 +150,7 @@ console.log(hoge.a); // 4 Hoge.__proto__.aを参照しています。
 console.log(fuga.a); // 4 Hoge.__proto__.aを参照しています。
 ```
 
+---
 この場合hogeはcountプロパティを持つオブジェクトを生成します。
 hogeとfugaのprototypeはインスタンス化する時点のHoge.prototypeの値です。
 
@@ -116,17 +159,16 @@ hogeとfugaのprototypeはインスタンス化する時点のHoge.prototypeの�
 new　したタイミングで初期化されます。
 
 ---
-class: middle, center
-**TIPS**
+class: middle
+## おまけ
 
-ちなみにですが`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.hoge = ...`という定義を行うようにしましょう。
-
-こう記載することにより、bark関数の生成は一度となる。
-汎用的に使う場合はprototypeで定義した方が良い。
+`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.hoge = ...`という定義を行うようにしましょう。
 
 ---
-class: middle, center
-### Object.create
+class: middle
+## おまけ2
+
+#### Object.create
 
 このメソッドを呼び出すと、新しいオブジェクトが生成されます。関数の最初の引数が、このオブジェクトのプロトタイプになります。
 
@@ -144,7 +186,7 @@ var c = Object.create(b);
 
 ---
 class: middle, center
-## 長すぎてつらいので終わる
+## おわりに
 prototypeはjavascriptの中々の関門だと思いますが、ある程度把握しておくことは大事だと思います。
 今回の説明だけでもまだまだ概要と仕組みを話しただけで、使われ方に関しては擬似クラスのような利用方法もあるので語るべきことは多くあります。
 

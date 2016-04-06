@@ -3,15 +3,6 @@ class: middle
 # thisから始まるjavascript
 ---
 
-class: middle,center
-
-# javascriptは好きですか？
----
-
-class: middle,center
-
-# javascriptつらい派閥に入ってます。
----
 class: middle
 ## 適当紹介
 

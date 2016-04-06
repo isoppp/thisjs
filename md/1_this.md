@@ -270,20 +270,21 @@ class: middle, center
 ### ES5では...
 
 ```
-var Hoge = {
-    //constructor
-    this.foo = 0;
+function Hoge(){
+  //constructor
+  this.foo = 0;
 }
 ```
 
-これはclass構文がないからであって
+これはclass構文がないからであって<br>
+.small[(内部的にはprototype.constructorがHogeを参照する)]
 
 ---
 class: middle, center
 ### ES6では...
 
 ```
-class hoge{
+class Hoge{
     constructor(){
         this.foo = 0;
     }
@@ -317,19 +318,26 @@ applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
 # ４種類のthis
 ]
 
-### 1. 関数呼び出しパターン
+--
+__1. 関数呼び出しパターン__<br>
 `hoge();`
 これはグローバルを参照する。
 
-### 2. メソッド呼び出しパターン
+--
+
+__2. メソッド呼び出しパターン__<br>
 `hoge.fuga();`
 これはfuga内にthis参照がある場合hogeを参照する。
 
-### 3. コンストラクタ呼び出しパターン
-`new Hoge()`
-これはHoge内に`this.a=...`のようなコンストラクタによるthis参照がある場合Hogeを参照する。
+--
 
-### 4. call applyパターン
+__3. コンストラクタ呼び出しパターン__<br>
+`new Hoge()`
+これはHoge内に`this.a=...`のようなthis参照がある場合Hoge自身を参照する。
+
+--
+
+__4. call applyパターン__<br>
 `function.call(hoge)`/`function.apply(hoge)`はfunctionに渡すthisを束縛する。
 
 

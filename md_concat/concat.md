@@ -3,15 +3,6 @@ class: middle
 # thisから始まるjavascript
 ---
 
-class: middle,center
-
-# javascriptは好きですか？
----
-
-class: middle,center
-
-# javascriptつらい派閥に入ってます。
----
 class: middle
 ## 適当紹介
 
@@ -358,20 +349,21 @@ class: middle, center
 ### ES5では...
 
 ```
-var Hoge = {
-    //constructor
-    this.foo = 0;
+function Hoge(){
+  //constructor
+  this.foo = 0;
 }
 ```
 
-これはclass構文がないからであって
+これはclass構文がないからであって<br>
+.small[(内部的にはprototype.constructorがHogeを参照する)]
 
 ---
 class: middle, center
 ### ES6では...
 
 ```
-class hoge{
+class Hoge{
     constructor(){
         this.foo = 0;
     }
@@ -405,19 +397,26 @@ applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
 # ４種類のthis
 ]
 
-### 1. 関数呼び出しパターン
+--
+__1. 関数呼び出しパターン__<br>
 `hoge();`
 これはグローバルを参照する。
 
-### 2. メソッド呼び出しパターン
+--
+
+__2. メソッド呼び出しパターン__<br>
 `hoge.fuga();`
 これはfuga内にthis参照がある場合hogeを参照する。
 
-### 3. コンストラクタ呼び出しパターン
-`new Hoge()`
-これはHoge内に`this.a=...`のようなコンストラクタによるthis参照がある場合Hogeを参照する。
+--
 
-### 4. call applyパターン
+__3. コンストラクタ呼び出しパターン__<br>
+`new Hoge()`
+これはHoge内に`this.a=...`のようなthis参照がある場合Hoge自身を参照する。
+
+--
+
+__4. call applyパターン__<br>
 `function.call(hoge)`/`function.apply(hoge)`はfunctionに渡すthisを束縛する。
 
 
@@ -463,8 +462,8 @@ var increment = (function() {
 ```
 
 
-これは即時関数でfunctionを返すため、
-内部の_countは外側からアクセスできません。
+これは即時関数でfunctionを返すため、<br>
+内部の_countは外側からアクセスできません。<br>
 他の言語だと`private hoge`にあたるプライベートな変数となります。
 
 ---
@@ -482,9 +481,15 @@ function nameToAge(name) {
 }
 ```
 
-これは名前を引数に与えると年齢を返す関数ですが、一見良さそうに見えるかもしれません。ただし、var listの中身は実は特に変更することもないし、外側からアクセスすることもありません。
-
+これは名前を引数に与えると年齢を返す関数です。<br>
+一見良さそうに見えるかもしれませんが、<br>
+`var list`の中身は実は特に変更することもないし、<br>
+外側からアクセスすることもありません。<br>
+（という設計思想ということにしてください）<br>
 なので一度定義したらそれを使い回すようにします。
+
+---
+class: middle, center
 
 ```
 var nameToAge = (function() {
@@ -496,10 +501,10 @@ var nameToAge = (function() {
 })();
 ```
 
-ここでまたしてもクロージャの出番でこのようになります。
-こうすることによってnameToAgeに代入される時の一度listは定義され、外側からも変更できないように隠蔽することができます。
-
-これ以上の深堀はあれですが、closureとメモリで検索すると面白いですぜ！
+こうすることによってnameToAgeに代入される時に一度だけ`list`は定義され、<br>
+外側からも変更できないように隠蔽することができます。<br><br>
+これ以上の深堀はあれですが、メモリも関連していたりするので、<br>
+closureとメモリで検索すると面白いですぜ！
 
 
 
@@ -509,82 +514,277 @@ class: middle, center
 # 3 データ型
 
 ---
-class: middle, center
+class: middle
+
+.u-tac[
 ## 種類
 
-__ES5は6種類、ES6は7種類。これ大事。__
+__.marker[ES5は6種類、ES6は7種類]。これ大事。__
 
--	Number 数値 42 や 3.14159 など。int/float等の区別はありません。
--	String 文字列 
--	Boolean 真偽値
--	Null null 値を意味する特殊なキーワードです。
--	Undefined 値が未定義
--	Object
+]
 
-**TIPS**
-ES6ではシンボル (Symbol)という型が追加されています。
-これはインスタンスが固有で不変となるデータ型です。
-と言っても意味が分からないと思いますが、これは省きます。
+.marker[Number] :数値 42 や 3.14159 など(int/float等の区別はありません。)<br>
+.marker[String] :文字列<br>
+.marker[Boolean] :真偽値<br>
+.marker[Null] :null 値を意味する特殊なキーワードです。<br>
+.marker[Undefined] :値が未定義<br>
+.marker[Object]
+
+__ES6で追加__
+
+.marker[Symbol] :インスタンスが固有で不変
+
+---
+class: middle, center
+
+.markerIn[
+## Symbol(ES6)
+]
+
+__インスタンスが固有で不変__ってなんやねん？
+
+---
+
+一度定義したらそれと一致する値を再度生成することは不可能な値です。
+
+```
+Symbol("hoge") === Symbol("hoge"); // false
+```
+
+--
+
+
+```
+var s1 = Symbol("s");
+var s2 = Symbol("s");
+console.log(s1 === s1); // true
+console.log(s1 === s2); // false
+```
+
+--
+そしてこれは`for in`ループで検知されません。
+
+```
+const sym = Symbol("foo");
+const obj = {[sym]: 1, text:'text'};
+console.log(obj[sym]); // 1
+
+for(var o in obj){
+  console.log(o); // text
+}
+```
+
+---
+.small[正直使いどころや使う場所が難しいが…]
+
+--
+
+```
+var key = Symbol('hoge');
+someLibrary[key] = function(){...}
+```
+このメソッド名使われてたっけ？みたいなのを気にせず拡張できる。
+
+--
+```
+var key = Symbol('hoge');
+Array.prototype[key] = function(){...}
+var arr = [];
+
+for(var o in obj){
+  console.log(o); // no log
+}
+Array.prototype['key'] = function(){...}
+
+for(var o in obj){
+  console.log(o); // key
+}
+```
+.marker[for in に検知されない]のもあり、<br>
+確実にオリジナルなメソッドを組み込みのオブジェクトに拡張できる
+
+---
+class: middle,center
+## らしい
+
+---
+class: middle,center
+
+その他enumっぽいものを作りたくてそのvalueとして使う。<br>
+.small[（とはいえvalueをsymbolにしたらenumとはまた違うんじゃ？って突っ込みたい）]<br>
+とかがあるのですが、先ほど例に出した拡張性を担保するための機能のようです。
+
+---
+class: middle,center
+# 詳しくはWEBで！
 
 ---
 class: middle, center
 ## データ型とtype of
 
+---
+class: middle, center
+# Numbers
 ```
-// Numbers
 typeof 37 === 'number';
 typeof 3.14 === 'number';
-typeof Math.LN2 === 'number';
 typeof Infinity === 'number';
 typeof NaN === 'number'; // "Not-A-Number"とは言いながらこうなります
+```
 
-// Strings
+---
+class: middle, center
+# Strings
+```
 typeof "" === 'string';
-typeof "bla" === 'string';
-typeof (typeof 1) === 'string'; // typeof はいつも文字列を返します
+typeof "hoge" === 'string';
+typeof (typeof 1) === 'string'; // typeof は必ず文字列を返します
+```
 
-// Booleans
+---
+class: middle, center
+# Booleans
+```
 typeof true === 'boolean';
 typeof false === 'boolean';
 
-// Symbols
+```
+
+---
+class: middle, center
+# Symbols
+```
 typeof Symbol() === 'symbol'
 typeof Symbol('foo') === 'symbol'
 typeof Symbol.iterator === 'symbol'
 
-// Undefined
-typeof undefined === 'undefined';
-typeof blabla === 'undefined'; //未定義の変数
+```
 
-// Objects
+---
+class: middle, center
+# Undefined
+```
+typeof undefined === 'undefined';
+typeof aiueo === 'undefined'; //未定義の変数
+
+```
+
+---
+class: middle, center
+# Objects
+```
 typeof {a:1} === 'object';
 
-// Array.isArray や Object.prototype.toString.call によっって普通のオブジェクトと配列を区別してください
-typeof [1, 2, 4] === 'object'; 
+```
+
+---
+class: middle, center
+# Objects(Array/Functions/Null)
+```
+typeof [1, 2, 4] === 'object';
 typeof new Date() === 'object';
 
-// Functions
 typeof function(){} === 'function';
 typeof Math.sin === 'function';
 
+typeof null === 'object'
 ```
 
 ---
+class: middle, center
+# ん？
+
+---
+class: middle, center
+# 最後のやつが気になる？流石です
+
+---
+.u-tac[
+## Array
+]
+
+#### 問題
+
+```
+typeof [1, 2, 4]
+```
+
+--
+
+答え:object
+
+--
+
+- 型
+    object
+- typeof
+    object
+
+---
+.u-tac[
+## Function
+]
+
+#### 問題
+
+```
+typeof function(){} === 'function';
+typeof Math.sin === 'function';
+```
+
+--
+
+答え:object
+
+--
+
+- 型
+    object
+- typeof
+    function
+
+---
+.u-tac[
+## Null
+]
+
+#### 問題
+
+```
+typeof null
+```
+
+--
+
+答え:object
+
+--
+
+- 型
+    null
+- typeof
+    object
+
+---
+
 class: middle, center
 ## おまけ
 
-オブジェクトとして生成してtype ofをするとまた結果が変わるのです。
+オブジェクトとして生成してtype ofをするとまた結果が変わります。
 
 ```
-var myNumber = new Number(23); // an object
-var myNumberLiteral = 23; // primitive number value, not an 
+var myNumberNew = new Number(23);
+var myNumber = 23;
 
 // logs 'object Number'
-console.log(typeof myNumber, typeof myNumberLiteral)
+console.log(typeof myNumberNew, typeof myNumber)
 ```
 
 ---
 class: middle, center
+# orz
+---
+
 ## おまけ2
 この辺りの認識が正しいと色々と理解しやすくなります。
 
@@ -600,50 +800,90 @@ console.log(typeof hoge);
 ---
 class: middle, center
 
-# 4. prototype
+.markerIn[
+# prototype
+]
 
 ---
 class: middle, center
 
 ## prototype
+JavaScript におけるすべてのオブジェクトは Object に由来します。<br>
+すべてのオブジェクトはObject.prototype からメソッドとプロパティを継承しています。<br>
+by MDN
 
-JavaScript におけるすべてのオブジェクトは Object に由来します。すべてのオブジェクトはObject.prototype からメソッドとプロパティを継承しています。by MDN
+---
+class: middle, center
 
-functionを宣言すると内部的にFunctionオブジェクトがnewされていて、prototypeプロパティを持っています。
+# 前置き
+---
+class: middle
+.marker[functionを宣言すると内部的にFunctionオブジェクトがnewされる。]
+
+そして.marker[全てのオブジェクトはprototypeプロパティ]を持つ。
+
+prototypeは.marker[生成時に.__proto__に参照がセット]され、これらは一致する。
 
 ```
-function hoge(){}
+function hoge(){} // この時点でFunctionオブジェクトが生成され初期化されている
  console.log(hoge.prototype); // log Object {}
+ console.log(hoge.prototype === hoge.__proto__); // true
 ```
 
-** 注意 **
-今回はprototypeへの参照は`__proto__`で行う。という前提でソースを書きます。
-ES6では`__proto__`は標準仕様に含まれましたが、ES5ではなんとも言えないので、その辺は一旦棚上げ。
+---
+class: middle
+
+今回はprototypeへの参照は`__proto__`で行います。<br>
+ただこの`__proto__`は.marker[ES5の標準仕様には含まれていません]。<br>
+実装はブラウザ依存となっているので、IEはIE11からの対応となっています。
+
+読み替えはこんな感じで！
+```
+function Hoge(){}
+Hoge.prototype.xxx = 0;
+var hoge = new Hoge();
+hoge.__proto__.xxx === Hoge.prototype.xxx
+```
+
+ちなみにES6では`__proto__`は標準仕様に含まれました。<br>
+が、同時にclass構文も実装されたりしているので、<br>
+あまり使用する機会がないかもしれません。
 
 ---
 class: middle, center
 ## prototype chain
 
-```
+---
+class: middle
+.borderBox[
 オブジェクトはプロトタイプと呼ばれる、他のオブジェクト（または null ）への内部的な繋がりを持っています。
 このプロトタイプオブジェクトは、あるオブジェクトがそのプロトタイプとして nullを持つまで、プロトタイプを継承します。
 このような、オブジェクトが他のオブジェクトのプロトタイプとなる連鎖を、プロトタイプチェーンと呼びます。
 by MDN
-```
+]
 
-ようするにnullになるまでprototypeを辿っていくという話。
-nullになるのはObject.prototype.hogeから遡った場合。
+--
 
-そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。
+nullになるまでprototypeを辿っていくという話。<br>
+nullになるのはObject.prototypeをさらに辿った場合にnullとなる。
+
+そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。<br>
 これも実は`Object.prototype.hasOwnProperty`から継承されてきているという話。
 
 ---
 class: middle, center
+# よく分からなすぎてつらい
+
+
+---
+class: middle, center
+
 ```
 // 0. この時点でTestというFunctionオブジェクトが生成される。
 function Test(){}
 
-// 1. Test自身がhasOwnPropertyを持っているかを調べる console.log(Test.hasOwnProperty('hasOwnProperty')); // false
+// 1. Test自身がhasOwnPropertyを持っているかを調べる 
+console.log(Test.hasOwnProperty('hasOwnProperty')); // false
 
 // 2. TestのprototypeがhasOwnPropertyを持っているかを調べる
  console.log(Test.__proto__.hasOwnProperty('hasOwnProperty')); // false
@@ -652,21 +892,23 @@ function Test(){}
  console.log(Test.hasOwnProperty === Test.__proto__.hasOwnProperty); // true
 
 // 4. Test.__proto__.__proto___ は元のObjectを指している
-
  console.log(Test.__proto__.__proto__); // {}               
  console.log(Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
 
 // 5. Test.__proto__.__proto__.__proto__ はオブジェクトまで遡ったためnullを返す
-// どこから参照してもここまでプロパティを遡って探しに行きます。
-
+// どこから参照してもここまで辿って参照を探しに行きます。
 console.log(Test.__proto__.__proto__.__proto__); // null
-  console.log(Test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // TypeError: Cannot read property 'hasOwnProperty' of null
+
+// TypeError: Cannot read property 'hasOwnProperty' of null
+ console.log(Test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty'));
 ```
 
-Test.hasOwnProertyは使用できますが、これはようするに、
-`Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')`
-ここまでprototypeが参照を遡っているということです。
-Function.prototypeを参照して、Object.prototypeを参照してその先がないのでnullとなります。
+---
+
+Test.hasOwnProertyは使用できますが、これはようするに、<br>
+`Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')`<br>
+ここまでprototypeが参照を遡っているということです。<br>
+Function.prototypeを参照して、Object.prototypeを参照してその先がないのでnullとなります。<br>
 
 これがprototype chainです。
 はい、よくわかりませんね。ええ。
@@ -707,6 +949,7 @@ console.log(hoge.a); // 4 Hoge.__proto__.aを参照しています。
 console.log(fuga.a); // 4 Hoge.__proto__.aを参照しています。
 ```
 
+---
 この場合hogeはcountプロパティを持つオブジェクトを生成します。
 hogeとfugaのprototypeはインスタンス化する時点のHoge.prototypeの値です。
 
@@ -715,17 +958,16 @@ hogeとfugaのprototypeはインスタンス化する時点のHoge.prototypeの�
 new　したタイミングで初期化されます。
 
 ---
-class: middle, center
-**TIPS**
+class: middle
+## おまけ
 
-ちなみにですが`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.hoge = ...`という定義を行うようにしましょう。
-
-こう記載することにより、bark関数の生成は一度となる。
-汎用的に使う場合はprototypeで定義した方が良い。
+`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.hoge = ...`という定義を行うようにしましょう。
 
 ---
-class: middle, center
-### Object.create
+class: middle
+## おまけ2
+
+#### Object.create
 
 このメソッドを呼び出すと、新しいオブジェクトが生成されます。関数の最初の引数が、このオブジェクトのプロトタイプになります。
 
@@ -743,7 +985,7 @@ var c = Object.create(b);
 
 ---
 class: middle, center
-## 長すぎてつらいので終わる
+## おわりに
 prototypeはjavascriptの中々の関門だと思いますが、ある程度把握しておくことは大事だと思います。
 今回の説明だけでもまだまだ概要と仕組みを話しただけで、使われ方に関しては擬似クラスのような利用方法もあるので語るべきことは多くあります。
 
