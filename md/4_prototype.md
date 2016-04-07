@@ -77,7 +77,7 @@ by MDN
 nullになるまでprototypeを辿っていくという話。<br>
 nullになるのはObject.prototypeをさらに辿った場合にnullとなる。
 
-そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。<br>
+それ自身が保持しているのか、というのを調べる`hasOwnProperty`という関数がある。<br>
 これも実は`Object.prototype.hasOwnProperty`から継承されてきているという話。
 
 ---
@@ -127,8 +127,8 @@ class: middle
 ]
 
 `new`キーワードを付けて生成することで、実現可能です。<br>
-newをつけない場合ただの関数として機能します。<br>
-ここでもnewをつけるかつけないかでthisの参照が変わることになります。<br>
+`new`をつけない場合ただの関数として機能します。<br>
+ここでも`new`をつけるかつけないかでthisの参照が変わることになります。<br>
 thisの所でも記載しましたが、コンストラクタを利用する事を明示するためには<br>
 .marker[Upper Camel]の命名にしましょう！
 
@@ -205,11 +205,20 @@ class: middle, center
 # Final Object Quest
 
 ---
+class: middle, center
+# みなさんゲームは好きですか？
+
+---
 class: middle
 
 .u-tac[
 ## prototype chainを職業ツリーに例えてみる。
 ]
+
+---
+class: middle
+
+### 基本設定
 
 - .hoge = その職業の時のみ使用できるスキル（固有スキル）
 - .prototype.hoge = 転職しても引き継がれるスキル（継承スキル）
@@ -227,7 +236,7 @@ Object(見習い) = 初期キャラクタ状態。
 
 ---
 
-#### Object（見習い）
+#### .marker[Object（見習い）]
 
 ```
 var obj = new Object();
@@ -237,38 +246,38 @@ var obj = new Object();
 .small[
 見習いは全てのキャラクターが作成された場合の初期職業です。
 
-##### 固有スキル
+##### .marker[固有スキル]
 
-こいつの固有スキルはややこしいので省略。
+~~こいつの固有スキルはややこしいので省略。~~
 
-##### 継承スキル（一部）
+##### .marker[継承スキル（一部）]
 
 - toString();
 - hasOwnProperty();
 ]
 
 ---
-#### Function(マモノ使い)
+#### .marker[Function(マモノ使い)]
 
 ```
 var func = new Function();
 ```
 
 .small[
-マモノ使いには見習い（Object）のジョブをマスターしている必要がある。<br>
+マモノ使いに転職するには見習い（Object）のジョブをマスターしている必要がある。<br>
 （これはシステム的に決まっている）
 
-##### 固有スキル（一部）
+##### .marker[固有スキル（一部）]
 
 - name
 - length
 
-##### 継承スキル（一部）
+##### .marker[継承スキル（一部）]
 
 - toString() 見習いから継承されているが、ここでスキル内容が別のものに強化（上書き）される。
 - apply()
 
-#### 継承されているスキル（一部）
+#### .marker[継承されているスキル（一部）]
 
 - toString(); 見習い（Object)から継承されたスキル
 - hasOwnProperty(); 見習い（Object)から継承されたスキル
@@ -276,7 +285,7 @@ var func = new Function();
 
 ---
 
-#### 自分で職業を定義してWizardを作る
+#### .marker[自分で職業を定義してWizardを作る]
 
 ```
 function Wizard(){
@@ -288,17 +297,17 @@ Wizard.prototype.fireball = 'fireball' // 継承スキル
 
 --
 
-#### 上級職のHiWizardを作る
+#### .marker[上級職のHighWizardを作る]
 
 ```
-function HiWizard(){
+function HighWizard(){
     this.thunderStorm = 'thunderStorm'; // 固有スキル
 }
 
 // こいつはWizardから転職するよという定義
-Object.setPrototypeOf(HiWizard.prototype, Wizard.prototype);
+Object.setPrototypeOf(HighWizard.prototype, Wizard.prototype);
 
-HiWizard.prototype.volcano = 'volcano'; // 継承スキル
+HighWizard.prototype.volcano = 'volcano'; // 継承スキル
 ```
 
 
@@ -308,39 +317,43 @@ HiWizard.prototype.volcano = 'volcano'; // 継承スキル
 
 ```
 var wiz = new Wizard();
-console.log(wiz.thunder);
-console.log(wiz.fireball);
+console.log(wiz.thunder); // thunder Wizardの固有スキル
+console.log(wiz.fireball); // fireball Wizardの継承スキル
 
-var hiWiz = new HiWizard();
+var hiWiz = new HighWizard();
 console.log(hiWiz.thunder); // undefined Wizardの固有スキル
 console.log(hiWiz.fireball); // fireball Wizardの継承スキル
-console.log(hiWiz.thunderStorm); // thunderStorm HiWizardの固有スキル
-console.log(hiWiz.volcano); // volcano HiWizardの継承スキル
+console.log(hiWiz.thunderStorm); // thunderStorm HighWizardの固有スキル
+console.log(hiWiz.volcano); // volcano HighWizardの継承スキル
 ```
 
 上手くいきました。<br>
-`Object.setPrototypeOf(子.prototype、親.prototype)`で子に親の<br>
+`Object.setPrototypeOf(子.prototype、親.prototype)`の書式で子に親の<br>
 prototypeを継承させることにより親子関係を定義する事ができます。
 ---
 
 ### Wizardのプロトタイプチェーン
 
+.small[無理やりな説明な分この辺ややこしくなります。すみません…]
+
+`new`でインスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+
 ```
-console.log(hiWiz.__proto__); // HiWizard { volcano: 'volcano' }
+console.log(hiWiz.__proto__); // HighWizard { volcano: 'volcano' }
 console.log(hiWiz.__proto__.__proto__); // Wizard { fireball: 'fireball' }
 console.log(hiWiz.__proto__.__proto__.__proto__); // {}
 ```
 
-インスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+--
+
+インスタンスを生成する前の`Wizard`自体はFunctionです。
+インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
 
 ```
 console.log(Wizard); // Function Wizard
 console.log(Wizard.__proto__); // Function
 console.log(Wizard.__proto__.__proto__); // Object
 ```
-
-インスタンスを生成する前の`Wizard`自体はFunctionです。
-インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
 
 ---
 class: middle, center
@@ -349,3 +362,7 @@ class: middle, center
 ---
 class: middle, center
 ## さらに深堀りしていくときりが無いので一旦ここまでにします。
+
+---
+class: middle, center
+### 質疑応答＆休憩タイム！

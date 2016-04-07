@@ -6,12 +6,10 @@ arr.forEach(function (item, index, array) {
   console.log(this); // window
 });
 
-$.each(arr, function () {
+each(arr, function () {
   console.log(this); // 1,2,3...
 });
 
-
-```
 function each(obj, callback) {
   var length,
       i = 0;
@@ -19,7 +17,7 @@ function each(obj, callback) {
   if (isArrayLike(obj)) {
     length = obj.length;
     for (; i < length; i++) {
-*      if (callback.call(obj[i], i, obj[i]) === false) {
+      if (callback.call(obj[i], i, obj[i]) === false) {
         break;
       }
     }
@@ -33,4 +31,3 @@ function each(obj, callback) {
 
   return obj;
 }
-```

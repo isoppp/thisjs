@@ -94,8 +94,9 @@ console.log(this === window) //q1;
 ```
 
 --
+.markerIn[
 ## true
-
+]
 ---
 class: u-pdt60, center
 ## Q2
@@ -109,8 +110,9 @@ q2();  //q2;
 ```
 
 --
+.markerIn[
 ## true
-
+]
 ---
 class: u-pdt60, center
 ## Q3
@@ -126,8 +128,9 @@ q3.q3m();  //q3;
 ```
 
 --
+.markerIn[
 ## false
-
+]
 ---
 class: u-pdt60, center
 ## Q4
@@ -141,8 +144,9 @@ new Q4();  //q4;
 ```
 
 --
+.markerIn[
 ## false
-
+]
 ---
 class: u-pdt60, center
 ## Q5
@@ -159,7 +163,9 @@ q5.q5Func.apply(window); //q5-2
 ```
 
 --
+.markerIn[
 ## false/true
+]
 
 ---
 class: middle, center
@@ -234,7 +240,7 @@ function q2(){
 q2(); // true
 ```
 
-function hoge...として定義された関数の中のthisはglobalを参照します。
+function hoge...として定義された.marker[関数の中のthisはglobal]を参照します。
 
 ---
 class: middle, center
@@ -256,11 +262,11 @@ var q3 = {
 q3.q3m(); // false
 ```
 
-オブジェクトの中に定義された**メソッドのthis参照**はそのオブジェクトがthisとして返されます。この場合はq3がthisとして返されます。
+オブジェクトの中に定義された.marker[メソッドのthis参照はそのオブジェクトがthis]として返されます。この場合はq3がthisとして返されます。
 
 ---
 class: middle, center
-## .marker[関数とメソッド]
+## 関数とメソッド
 
 関数とメソッドの差がよく分からない？<br>
 簡単に説明するなら.marker[呼び出す時の記載方法]をイメージすると良いです。
@@ -288,14 +294,14 @@ function Q4(){
 new Q4(); // false
 ```
 
-new されて新しいインスタンスが生成される場合、その中のthisはそれ自身を指します。<br>
-この場合はq4を指します。
+`new`で.marker[新しくインスタンスを生成する場合、その中のthisはそれ自身]を指します。<br>
+この場合は`Q4`を指します。
 
 --
 
 .borderBox[
 .tips[TIPS]<br>
-newするかしないかでthisの参照が変わってしまうため、newを付けて新しくインスタンスを生成をして利用すべき物はUpper Camelの命名が使われる慣例があります。
+`new`するかしないかでthisの参照が変わってしまうため、`new`を付けて.marker[新しくインスタンスを生成をして利用すべき物はUpper Camelの命名]が使われる慣例があります。
 ]
 
 
@@ -304,7 +310,7 @@ newするかしないかでthisの参照が変わってしまうため、newを�
 class: middle
 ## 用語
 
-#### インスタンス (instance) 訳:実体
+#### .marker[インスタンス (instance) 訳:実体]
 
 .borderBox[
 オブジェクト指向言語においては、多くの場合クラスと呼ばれるものを元に作成したオブジェクトの実体を指す。 by wikipedia
@@ -312,7 +318,7 @@ class: middle
 
 オブジェクトの実体。
 
-#### コンストラクタ (constructor) 訳:建設者、建設会社
+#### .marker[コンストラクタ (constructor) 訳:建設者、建設会社]
 
 .borderBox[
 新たなオブジェクトを生成する際に呼び出されて内容の初期化などを行なう関数、メソッドのことである。 by wikipedia
@@ -370,7 +376,7 @@ class Hoge{
 }
 ```
 
-というようにちゃんと関数で実装できるようになりました。
+class構文が導入されたので関数で実装できるようになりました。
 
 ---
 class: middle, center
@@ -389,7 +395,7 @@ q5.q5Func(); // false
 q5.q5Func.apply(window); //true 
 ```
 
-applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
+applyやcallすると.marker[apply(xxx)の引数の中身でthisを束縛]します。
 
 ---
 
@@ -398,25 +404,25 @@ applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
 ]
 
 --
-__1. 関数呼び出しパターン__<br>
+.marker[__1. 関数呼び出しパターン__]<br>
 `hoge();`
 これはグローバルを参照する。
 
 --
 
-__2. メソッド呼び出しパターン__<br>
+.marker[__2. メソッド呼び出しパターン__]<br>
 `hoge.fuga();`
 これはfuga内にthis参照がある場合hogeを参照する。
 
 --
 
-__3. コンストラクタ呼び出しパターン__<br>
+.marker[__3. コンストラクタ呼び出しパターン__]<br>
 `new Hoge()`
 これはHoge内に`this.a=...`のようなthis参照がある場合Hoge自身を参照する。
 
 --
 
-__4. call applyパターン__<br>
+.marker[__4. call applyパターン__]<br>
 `function.call(hoge)`/`function.apply(hoge)`はfunctionに渡すthisを束縛する。
 
 
@@ -509,6 +515,9 @@ jqueryのthisの束縛に関しては.marker[負の遺産]と表現する人も�
 
 ---
 class: middle, center
+### 質疑応答＆休憩タイム！
+---
+class: middle, center
 
 # 2 closure
 
@@ -576,7 +585,9 @@ var nameToAge = (function() {
 これ以上の深堀はあれですが、メモリも関連していたりするので、<br>
 closureとメモリで検索すると面白いですぜ！
 
-
+---
+class: middle, center
+### 質疑応答＆休憩タイム！
 
 ---
 class: middle, center
@@ -854,19 +865,30 @@ console.log(typeof myNumberNew, typeof myNumber)
 class: middle, center
 # orz
 ---
+class: middle, center
+# Kobanashi of jQuery
 
-## おまけ2
+---
+class: middle
 この辺りの認識が正しいと色々と理解しやすくなります。
 
 ```
 var hoge = $('fuga');
 console.log(typeof hoge);
 ```
-このhogeってなんやねんって話になりますが、
+このhogeってなんやねんって話になりますが、<br>
 舐めすぎだったら死にますが、これはただのobjectです。
+
+`hogehoge is not defined`<br>
+`hogehoge is not a function`<br>
+みたいなエラーが出てあばばばばってなりますが、<br>
+ただのオブジェクトだと分かっていればちょっとは追いやすくなるはずです！
+
 逆にんなこたぁ知ってるよと言われるのであれば今回ちょっと内容不満ありですかな…。
 
-
+---
+class: middle, center
+### 質疑応答＆休憩タイム！
 ---
 class: middle, center
 
@@ -946,7 +968,7 @@ by MDN
 nullになるまでprototypeを辿っていくという話。<br>
 nullになるのはObject.prototypeをさらに辿った場合にnullとなる。
 
-そいつが持っているのか、というのを調べる`hasOwnProperty`物がある。<br>
+それ自身が保持しているのか、というのを調べる`hasOwnProperty`という関数がある。<br>
 これも実は`Object.prototype.hasOwnProperty`から継承されてきているという話。
 
 ---
@@ -996,8 +1018,8 @@ class: middle
 ]
 
 `new`キーワードを付けて生成することで、実現可能です。<br>
-newをつけない場合ただの関数として機能します。<br>
-ここでもnewをつけるかつけないかでthisの参照が変わることになります。<br>
+`new`をつけない場合ただの関数として機能します。<br>
+ここでも`new`をつけるかつけないかでthisの参照が変わることになります。<br>
 thisの所でも記載しましたが、コンストラクタを利用する事を明示するためには<br>
 .marker[Upper Camel]の命名にしましょう！
 
@@ -1074,11 +1096,20 @@ class: middle, center
 # Final Object Quest
 
 ---
+class: middle, center
+# みなさんゲームは好きですか？
+
+---
 class: middle
 
 .u-tac[
 ## prototype chainを職業ツリーに例えてみる。
 ]
+
+---
+class: middle
+
+### 基本設定
 
 - .hoge = その職業の時のみ使用できるスキル（固有スキル）
 - .prototype.hoge = 転職しても引き継がれるスキル（継承スキル）
@@ -1096,7 +1127,7 @@ Object(見習い) = 初期キャラクタ状態。
 
 ---
 
-#### Object（見習い）
+#### .marker[Object（見習い）]
 
 ```
 var obj = new Object();
@@ -1106,38 +1137,38 @@ var obj = new Object();
 .small[
 見習いは全てのキャラクターが作成された場合の初期職業です。
 
-##### 固有スキル
+##### .marker[固有スキル]
 
-こいつの固有スキルはややこしいので省略。
+~~こいつの固有スキルはややこしいので省略。~~
 
-##### 継承スキル（一部）
+##### .marker[継承スキル（一部）]
 
 - toString();
 - hasOwnProperty();
 ]
 
 ---
-#### Function(マモノ使い)
+#### .marker[Function(マモノ使い)]
 
 ```
 var func = new Function();
 ```
 
 .small[
-マモノ使いには見習い（Object）のジョブをマスターしている必要がある。<br>
+マモノ使いに転職するには見習い（Object）のジョブをマスターしている必要がある。<br>
 （これはシステム的に決まっている）
 
-##### 固有スキル（一部）
+##### .marker[固有スキル（一部）]
 
 - name
 - length
 
-##### 継承スキル（一部）
+##### .marker[継承スキル（一部）]
 
 - toString() 見習いから継承されているが、ここでスキル内容が別のものに強化（上書き）される。
 - apply()
 
-#### 継承されているスキル（一部）
+#### .marker[継承されているスキル（一部）]
 
 - toString(); 見習い（Object)から継承されたスキル
 - hasOwnProperty(); 見習い（Object)から継承されたスキル
@@ -1145,7 +1176,7 @@ var func = new Function();
 
 ---
 
-#### 自分で職業を定義してWizardを作る
+#### .marker[自分で職業を定義してWizardを作る]
 
 ```
 function Wizard(){
@@ -1157,17 +1188,17 @@ Wizard.prototype.fireball = 'fireball' // 継承スキル
 
 --
 
-#### 上級職のHiWizardを作る
+#### .marker[上級職のHighWizardを作る]
 
 ```
-function HiWizard(){
+function HighWizard(){
     this.thunderStorm = 'thunderStorm'; // 固有スキル
 }
 
 // こいつはWizardから転職するよという定義
-Object.setPrototypeOf(HiWizard.prototype, Wizard.prototype);
+Object.setPrototypeOf(HighWizard.prototype, Wizard.prototype);
 
-HiWizard.prototype.volcano = 'volcano'; // 継承スキル
+HighWizard.prototype.volcano = 'volcano'; // 継承スキル
 ```
 
 
@@ -1177,39 +1208,43 @@ HiWizard.prototype.volcano = 'volcano'; // 継承スキル
 
 ```
 var wiz = new Wizard();
-console.log(wiz.thunder);
-console.log(wiz.fireball);
+console.log(wiz.thunder); // thunder Wizardの固有スキル
+console.log(wiz.fireball); // fireball Wizardの継承スキル
 
-var hiWiz = new HiWizard();
+var hiWiz = new HighWizard();
 console.log(hiWiz.thunder); // undefined Wizardの固有スキル
 console.log(hiWiz.fireball); // fireball Wizardの継承スキル
-console.log(hiWiz.thunderStorm); // thunderStorm HiWizardの固有スキル
-console.log(hiWiz.volcano); // volcano HiWizardの継承スキル
+console.log(hiWiz.thunderStorm); // thunderStorm HighWizardの固有スキル
+console.log(hiWiz.volcano); // volcano HighWizardの継承スキル
 ```
 
 上手くいきました。<br>
-`Object.setPrototypeOf(子.prototype、親.prototype)`で子に親の<br>
+`Object.setPrototypeOf(子.prototype、親.prototype)`の書式で子に親の<br>
 prototypeを継承させることにより親子関係を定義する事ができます。
 ---
 
 ### Wizardのプロトタイプチェーン
 
+.small[無理やりな説明な分この辺ややこしくなります。すみません…]
+
+`new`でインスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+
 ```
-console.log(hiWiz.__proto__); // HiWizard { volcano: 'volcano' }
+console.log(hiWiz.__proto__); // HighWizard { volcano: 'volcano' }
 console.log(hiWiz.__proto__.__proto__); // Wizard { fireball: 'fireball' }
 console.log(hiWiz.__proto__.__proto__.__proto__); // {}
 ```
 
-インスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+--
+
+インスタンスを生成する前の`Wizard`自体はFunctionです。
+インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
 
 ```
 console.log(Wizard); // Function Wizard
 console.log(Wizard.__proto__); // Function
 console.log(Wizard.__proto__.__proto__); // Object
 ```
-
-インスタンスを生成する前の`Wizard`自体はFunctionです。
-インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
 
 ---
 class: middle, center
@@ -1218,6 +1253,10 @@ class: middle, center
 ---
 class: middle, center
 ## さらに深堀りしていくときりが無いので一旦ここまでにします。
+
+---
+class: middle, center
+### 質疑応答＆休憩タイム！
 ---
 class: middle, center
 
@@ -1228,7 +1267,7 @@ class: middle, center
 
 今回の話をもっとちゃんと理解した方が良い所や、<br>
 他のアプローチもあったりするので、<br>
-がんがん今回をきっかけにして深堀りして頂けると嬉しいです。
+今回をきっかけにして色々と深堀りして頂けると嬉しいです。
 
 ---
 class: middle, center

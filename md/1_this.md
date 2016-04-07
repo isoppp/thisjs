@@ -15,8 +15,9 @@ console.log(this === window) //q1;
 ```
 
 --
+.markerIn[
 ## true
-
+]
 ---
 class: u-pdt60, center
 ## Q2
@@ -30,8 +31,9 @@ q2();  //q2;
 ```
 
 --
+.markerIn[
 ## true
-
+]
 ---
 class: u-pdt60, center
 ## Q3
@@ -47,8 +49,9 @@ q3.q3m();  //q3;
 ```
 
 --
+.markerIn[
 ## false
-
+]
 ---
 class: u-pdt60, center
 ## Q4
@@ -62,8 +65,9 @@ new Q4();  //q4;
 ```
 
 --
+.markerIn[
 ## false
-
+]
 ---
 class: u-pdt60, center
 ## Q5
@@ -80,7 +84,9 @@ q5.q5Func.apply(window); //q5-2
 ```
 
 --
+.markerIn[
 ## false/true
+]
 
 ---
 class: middle, center
@@ -155,7 +161,7 @@ function q2(){
 q2(); // true
 ```
 
-function hoge...として定義された関数の中のthisはglobalを参照します。
+function hoge...として定義された.marker[関数の中のthisはglobal]を参照します。
 
 ---
 class: middle, center
@@ -177,11 +183,11 @@ var q3 = {
 q3.q3m(); // false
 ```
 
-オブジェクトの中に定義された**メソッドのthis参照**はそのオブジェクトがthisとして返されます。この場合はq3がthisとして返されます。
+オブジェクトの中に定義された.marker[メソッドのthis参照はそのオブジェクトがthis]として返されます。この場合はq3がthisとして返されます。
 
 ---
 class: middle, center
-## .marker[関数とメソッド]
+## 関数とメソッド
 
 関数とメソッドの差がよく分からない？<br>
 簡単に説明するなら.marker[呼び出す時の記載方法]をイメージすると良いです。
@@ -209,14 +215,14 @@ function Q4(){
 new Q4(); // false
 ```
 
-new されて新しいインスタンスが生成される場合、その中のthisはそれ自身を指します。<br>
-この場合はq4を指します。
+`new`で.marker[新しくインスタンスを生成する場合、その中のthisはそれ自身]を指します。<br>
+この場合は`Q4`を指します。
 
 --
 
 .borderBox[
 .tips[TIPS]<br>
-newするかしないかでthisの参照が変わってしまうため、newを付けて新しくインスタンスを生成をして利用すべき物はUpper Camelの命名が使われる慣例があります。
+`new`するかしないかでthisの参照が変わってしまうため、`new`を付けて.marker[新しくインスタンスを生成をして利用すべき物はUpper Camelの命名]が使われる慣例があります。
 ]
 
 
@@ -225,7 +231,7 @@ newするかしないかでthisの参照が変わってしまうため、newを�
 class: middle
 ## 用語
 
-#### インスタンス (instance) 訳:実体
+#### .marker[インスタンス (instance) 訳:実体]
 
 .borderBox[
 オブジェクト指向言語においては、多くの場合クラスと呼ばれるものを元に作成したオブジェクトの実体を指す。 by wikipedia
@@ -233,7 +239,7 @@ class: middle
 
 オブジェクトの実体。
 
-#### コンストラクタ (constructor) 訳:建設者、建設会社
+#### .marker[コンストラクタ (constructor) 訳:建設者、建設会社]
 
 .borderBox[
 新たなオブジェクトを生成する際に呼び出されて内容の初期化などを行なう関数、メソッドのことである。 by wikipedia
@@ -291,7 +297,7 @@ class Hoge{
 }
 ```
 
-というようにちゃんと関数で実装できるようになりました。
+class構文が導入されたので関数で実装できるようになりました。
 
 ---
 class: middle, center
@@ -310,7 +316,7 @@ q5.q5Func(); // false
 q5.q5Func.apply(window); //true 
 ```
 
-applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
+applyやcallすると.marker[apply(xxx)の引数の中身でthisを束縛]します。
 
 ---
 
@@ -319,25 +325,25 @@ applyやcallするとapply(xxx)の引数の中身でthisを束縛します。
 ]
 
 --
-__1. 関数呼び出しパターン__<br>
+.marker[__1. 関数呼び出しパターン__]<br>
 `hoge();`
 これはグローバルを参照する。
 
 --
 
-__2. メソッド呼び出しパターン__<br>
+.marker[__2. メソッド呼び出しパターン__]<br>
 `hoge.fuga();`
 これはfuga内にthis参照がある場合hogeを参照する。
 
 --
 
-__3. コンストラクタ呼び出しパターン__<br>
+.marker[__3. コンストラクタ呼び出しパターン__]<br>
 `new Hoge()`
 これはHoge内に`this.a=...`のようなthis参照がある場合Hoge自身を参照する。
 
 --
 
-__4. call applyパターン__<br>
+.marker[__4. call applyパターン__]<br>
 `function.call(hoge)`/`function.apply(hoge)`はfunctionに渡すthisを束縛する。
 
 

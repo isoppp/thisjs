@@ -67,4 +67,6 @@ var nameToAge = (function() {
 これ以上の深堀はあれですが、メモリも関連していたりするので、<br>
 closureとメモリで検索すると面白いですぜ！
 
-
+---
+class: middle, center
+### 質疑応答＆休憩タイム！

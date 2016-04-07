@@ -69,3 +69,7 @@ class: middle, center
 jqueryのthisの束縛に関しては.marker[負の遺産]と表現する人もおられます。
 
 ご注意を！
+
+---
+class: middle, center
+### 質疑応答＆休憩タイム！
