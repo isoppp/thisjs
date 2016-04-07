@@ -1,0 +1,45 @@
+@import "./util";
+@import "./overwrite";
+
+/*original*/
+
+code {
+  background: #eee;
+  padding:2px 4px;
+  border:1px solid #ddd;
+  font-family: 'Ubuntu Mono';
+}
+
+.marker{
+  display: inline-block;
+  line-height:1;
+  background: linear-gradient(transparent 50%, #ffff66 50%);
+}
+
+.markerIn > *{
+  display: inline-block;
+  line-height:1;
+  background: linear-gradient(transparent 50%, #ffff66 50%);
+}
+
+.borderBox {
+  border:1px solid #222;
+  padding:10px;
+}
+
+.tips {
+  font-style: italic;
+  font-weight:bold;
+  font-size:22px;
+  margin-bottom:5px;
+
+  @extend .marker;
+
+  &:after{
+    content: ':';
+  }
+}
+
+.small {
+  font-size:0.75em;
+}

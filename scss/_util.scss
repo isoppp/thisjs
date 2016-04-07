@@ -1,0 +1,179 @@
+// Font style
+
+.u-i {
+  font-style: italic !important;
+}
+
+.u-b {
+  font-weight: bold !important;
+}
+
+.u-n {
+  font-style: normal !important;
+  font-weight: normal !important;
+}
+
+
+// Font size
+
+@for $i from 10 through 40 {
+  .u-fs#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+// White space
+
+.u-nw {
+  white-space: nowrap !important;
+}
+
+
+// Text align
+
+.u-tal {
+  text-align: left !important;
+}
+
+.u-tar {
+  text-align: right !important;
+}
+
+.u-tac {
+  text-align: center !important;
+}
+
+
+// Vertical align
+
+.u-top {
+  vertical-align: top !important;
+}
+
+.u-middle {
+  vertical-align: middle !important;
+}
+
+.u-bottom {
+  vertical-align: bottom !important;
+}
+
+.u-baseline {
+  vertical-align: baseline !important;
+}
+
+
+// Float
+
+.u-fl {
+  float: left !important;
+}
+
+.u-fr {
+  float: right !important;
+}
+
+.u-fn {
+  float: none !important;
+}
+
+
+// Clear
+
+.u-cl {
+  clear: left !important;
+}
+
+.u-cr {
+  clear: right !important;
+}
+
+.u-cb {
+  clear: both !important;
+}
+
+
+// Display
+
+.u-di {
+  display: inline !important;
+}
+
+.u-db {
+  display: block !important;
+}
+
+.u-dib {
+  display: inline-block !important;
+}
+
+
+// Margin
+
+.u-m0 {
+  margin: 0 !important;
+}
+
+@for $i from 0 through 30 {
+  $size: 4 * $i;
+  .u-mgt#{$size} {
+    margin-top: #{$size}px !important;
+  }
+
+  .u-mgb#{$size} {
+    margin-bottom: #{$size}px !important;
+  }
+
+  .u-mgl#{$size} {
+    margin-left: #{$size}px !important;
+  }
+
+  .u-mgr#{$size} {
+    margin-right: #{$size}px !important;
+  }
+}
+
+// Padding
+
+.u-pd0 {
+  padding: 0 !important;
+}
+
+@for $i from 0 through 30 {
+  $size: 4 * $i;
+  .u-pdt#{$size} {
+    padding-top: #{$size}px !important;
+  }
+
+  .u-pdb#{$size} {
+    padding-bottom: #{$size}px !important;
+  }
+
+  .u-pdl#{$size} {
+    padding-left: #{$size}px !important;
+  }
+
+  .u-pdr#{$size} {
+    padding-right: #{$size}px !important;
+  }
+}
+
+.u-bd0 {
+  border: none !important;
+}
+
+.u-bdt0 {
+  border-top: none !important;
+}
+
+.u-bdb0 {
+  border-bottom: none !important;
+}
+
+.u-bdl0 {
+  border-left: none !important;
+}
+
+.u-bdr0 {
+  border-right: none !important;
+}

@@ -1,18 +1,17 @@
 # 1 this
 
-
 ## 問題
 ブラウザで実行した場合の結果はどうなるか
 
 __Q1__
 
-```
+```javascript
 console.log(this === window); //true
 ```
 
 __Q2__
 
-```
+```javascript
 function q2(){
     console.log(this === window);
 }
@@ -22,7 +21,7 @@ q2(); // true
 
 __Q3__
 
-```
+```javascript
 var q3 = { 
     q3m: function(){
         console.log(this === window);
@@ -34,7 +33,7 @@ q3.q3m(); // false
 
 __Q4__
 
-```
+```javascript
 function Q4(){
     console.log(this === window);
 }    
@@ -44,7 +43,7 @@ new Q4(); // false
 
 __Q5__
 
-```
+```javascript
 var q5 = {
     q5Func : function (){
         console.log(this === window);
@@ -71,13 +70,13 @@ globalのthisの話
 
 Q1
 
-```
+```javascript
 console.log(this === window); //true
 ```
 
 ブラウザで実行するとglobalのthisはwindowオブジェクトになります。
 
-```
+```javascript
 console.log(this); // window object
 ```
 
@@ -90,7 +89,7 @@ console.log(this); // window object
 
 Q2
 
-```
+```javascript
 function q2(){
     console.log(this === window);
 }
@@ -104,7 +103,7 @@ function hoge...として定義された関数の中のthisはglobalを参照し
 
 Q3
 
-```
+```javascript
 var q3 = { 
     q3m: function(){
         console.log(this === window);
@@ -121,7 +120,7 @@ q3.q3m(); // false
 関数とメソッドの差がよく分からない？
 簡単に説明するなら呼び出し時の記載方法をイメージすると良い。
 
-```
+```javascript
 xxx.yyy(); // メソッド
 yyy(); // 関数
 ```
@@ -130,7 +129,7 @@ yyy(); // 関数
 
 Q4
 
-```
+```javascript
 function Q4(){
     console.log(this === window);
 }    
@@ -147,7 +146,7 @@ new されて新しいインスタンスが生成される場合、その中のt
 **用語**
 インスタンス：
 
-```
+```text
 オブジェクト指向言語においては、多くの場合クラスと呼ばれるものを元に作成したオブジェクトの実体を指す。 by wikipedia
 ```
 
@@ -155,7 +154,7 @@ new されて新しいインスタンスが生成される場合、その中のt
 
 コンストラクタ：
 
-```
+```text
 新たなオブジェクトを生成する際に呼び出されて内容の初期化などを行なう関数、メソッドのことである。 by wikipedia
 ```
 
@@ -165,7 +164,7 @@ new されて新しいインスタンスが生成される場合、その中のt
 
 Q5
 
-```
+```javascript
 var q5 = {
     q5Func : function (){
         console.log(this === window);
