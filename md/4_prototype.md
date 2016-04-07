@@ -91,26 +91,27 @@ class: middle, center
 ```
 // 0. この時点でTestというFunctionオブジェクトが生成される。
 function Test(){}
+var test = new Test();
 
 // 1. Test自身がhasOwnPropertyを持っているかを調べる 
-console.log(Test.hasOwnProperty('hasOwnProperty')); // false
+console.log(test.hasOwnProperty('hasOwnProperty')); // false
 
 // 2. TestのprototypeがhasOwnPropertyを持っているかを調べる
- console.log(Test.__proto__.hasOwnProperty('hasOwnProperty')); // false
+ console.log(test.__proto__.hasOwnProperty('hasOwnProperty')); // false
 
 // 3. 実は1と2って同じという話
- console.log(Test.hasOwnProperty === Test.__proto__.hasOwnProperty); // true
+ console.log(test.hasOwnProperty === test.__proto__.hasOwnProperty); // true
 
 // 4. Test.__proto__.__proto___ は元のObjectを指している
- console.log(Test.__proto__.__proto__); // {}               
- console.log(Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
+ console.log(test.__proto__.__proto__); // {}
+ console.log(test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
 
 // 5. Test.__proto__.__proto__.__proto__ はオブジェクトまで遡ったためnullを返す
 // どこから参照してもここまで辿って参照を探しに行きます。
-console.log(Test.__proto__.__proto__.__proto__); // null
+console.log(test.__proto__.__proto__.__proto__); // null
 
 // TypeError: Cannot read property 'hasOwnProperty' of null
- console.log(Test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty'));
+ console.log(test.__proto__.__proto__.__proto__.hasOwnProperty('hasOwnProperty'));
 ```
 
 ---
