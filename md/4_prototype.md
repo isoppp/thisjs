@@ -180,12 +180,12 @@ class: middle
 最初のサンプルで使用していますが、このメソッドを呼び出すと、新しいオブジェクトが生成されます。関数の最初の引数が、このオブジェクトのプロトタイプになります。
 
 ```
-var a = {a: 1}; 
+var a = {aaa: 1};
 // a ---> Object.prototype ---> null
 
 var b = Object.create(a);
 // b ---> a ---> Object.prototype ---> null
-console.log(b.a); // 1 (継承された)
+console.log(b.aaa); // 1 (継承された)
 
 var c = Object.create(b);
 // c ---> b ---> a ---> Object.prototype ---> null
