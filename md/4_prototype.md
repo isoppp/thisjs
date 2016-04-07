@@ -261,7 +261,7 @@ var obj = new Object();
 #### .marker[Function(マモノ使い)]
 
 ```
-var func = new Function();
+Function
 ```
 
 .small[
