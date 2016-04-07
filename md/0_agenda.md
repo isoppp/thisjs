@@ -70,9 +70,8 @@ class: middle
 # agenda
 .u-fs24[
 1  this<br>
-2  closure<br>
-3  types<br>
-4  prototype<br>
+2  types<br>
+3  prototype<br>
 ]
 ]
 
