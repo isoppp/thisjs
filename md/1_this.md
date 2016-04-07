@@ -215,7 +215,7 @@ function Q4(){
 new Q4(); // false
 ```
 
-`new`で.marker[新しくインスタンスを生成する場合、その中のthisはそれ自身]を指します。<br>
+`new`で.marker[新しくインスタンスを生成する場合、その中のthisは生成されるインスタンス]を指します。<br>
 この場合は`Q4`を指します。
 
 --
@@ -339,7 +339,7 @@ applyやcallすると.marker[apply(xxx)の引数の中身でthisを束縛]しま
 
 .marker[__3. コンストラクタ呼び出しパターン__]<br>
 `new Hoge()`
-これはHoge内に`this.a=...`のようなthis参照がある場合Hoge自身を参照する。
+これはHoge内に`this.a=...`のようなthis参照がある場合作成されたインスタンスを参照する。
 
 --
 
