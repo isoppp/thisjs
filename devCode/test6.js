@@ -1,11 +1,11 @@
 function Wizard() {
-    this.thunder = 'thunder'; // 固有スキル
+  this.thunder = 'thunder'; // 固有スキル
 }
 
 Wizard.prototype.fireball = 'fireball'; // 継承スキル
 
 function HiWizard() {
-    this.thunderStorm = 'thunderStorm'; // 固有スキル
+  this.thunderStorm = 'thunderStorm'; // 固有スキル
 }
 HiWizard.prototype.volcano = 'volcano'; // 継承スキル
 Object.setPrototypeOf(HiWizard.prototype, Wizard.prototype); // 職業ツリーを定義する

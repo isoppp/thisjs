@@ -1,26 +1,26 @@
-var arr = [1,2,3];
+var arr = [1, 2, 3];
 
-arr.forEach(function(item,index,array){
+arr.forEach(function (item, index, array) {
   console.log(this); // window
 });
 
-each(arr,function(){
+each(arr, function () {
   console.log(this); // 1,2,3...
 });
 
-function each( obj, callback ) {
+function each(obj, callback) {
   var length, i = 0;
 
-  if ( isArrayLike( obj ) ) {
+  if (isArrayLike(obj)) {
     length = obj.length;
-    for ( ; i < length; i++ ) {
-      if ( callback.call( obj[ i ], i, obj[ i ] ) === false ) {
+    for (; i < length; i++) {
+      if (callback.call(obj[i], i, obj[i]) === false) {
         break;
       }
     }
   } else {
-    for ( i in obj ) {
-      if ( callback.call( obj[ i ], i, obj[ i ] ) === false ) {
+    for (i in obj) {
+      if (callback.call(obj[i], i, obj[i]) === false) {
         break;
       }
     }

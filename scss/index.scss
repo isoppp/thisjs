@@ -4,42 +4,42 @@
 /*original*/
 
 code {
-  background: #eee;
-  padding:2px 4px;
-  border:1px solid #ddd;
-  font-family: 'Ubuntu Mono';
+  background: #EEE;
+  border: 1px solid #DDD;
+  font-family: "Ubuntu Mono";
+  padding: 2px 4px;
 }
 
-.marker{
+.marker {
+  background: linear-gradient(transparent 50%, #FF6 50%);
   display: inline-block;
-  line-height:1;
-  background: linear-gradient(transparent 50%, #ffff66 50%);
+  line-height: 1;
 }
 
-.markerIn > *{
+.markerIn > * {
+  background: linear-gradient(transparent 50%, #FF6 50%);
   display: inline-block;
-  line-height:1;
-  background: linear-gradient(transparent 50%, #ffff66 50%);
+  line-height: 1;
 }
 
 .borderBox {
-  border:1px solid #222;
-  padding:10px;
+  border: 1px solid #222;
+  padding: 10px;
 }
 
 .tips {
-  font-style: italic;
-  font-weight:bold;
-  font-size:22px;
-  margin-bottom:5px;
-
   @extend .marker;
 
-  &:after{
-    content: ':';
+  font-size: 22px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 5px;
+
+  &:after {
+    content: ":";
   }
 }
 
 .small {
-  font-size:0.75em;
+  font-size: 0.75em;
 }
