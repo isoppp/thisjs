@@ -3,15 +3,13 @@ class: middle, center
 
 # 2 closure
 
-```
-引数以外の変数を実行時の環境ではなく、
-自身が定義された環境（静的スコープ）において解決することを特徴とする。
-関数とそれを評価する環境のペアであるともいえる。 by wikipedia
-```
-
+.u-tal[
+引数以外の変数を実行時の環境ではなく、自身が定義された環境（静的スコープ）において解決することを特徴とする。関数とそれを評価する環境のペアであるともいえる。<br>
+by wikipedia
+]
 ---
-class: middle, center
-簡単な例
+class: middle
+#### 簡単な例
 
 ```
 var increment = (function() {
@@ -30,9 +28,9 @@ var increment = (function() {
 他の言語だと`private hoge`にあたるプライベートな変数となります。
 
 ---
-class: middle, center
+class: middle
 
-ちょっと深めな使い方例
+#### ちょっと深めな使い方例
 
 ```
 function nameToAge(name) {
@@ -52,8 +50,8 @@ function nameToAge(name) {
 なので一度定義したらそれを使い回すようにします。
 
 ---
-class: middle, center
-
+class: middle
+#### 書き換えてみると…
 ```
 var nameToAge = (function() {
    var list = {

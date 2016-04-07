@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel ./test.js --presets es2015 --watch --out-file ./test-compiled.js",
+    "start": "npm-run-all -p build:**",
+    "build:js": "babel ./devCode/ --presets es2015 --watch --out-dir ./devCode_compiled/",
+    "build:md": "gulp concat && gulp sass && gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

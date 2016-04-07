@@ -437,18 +437,88 @@ __4. call applyパターン__<br>
 
 ---
 class: middle, center
+# Kobanashi of jQuery
 
-# 2 closure
+---
+class: middle, center
+```
+$this = $(this);
+```
+
+よくこういうことやりますね。<br>
+何か不思議だなとか思った事ありますか？
+
+---
+class: middle, center
+今回はeachを例に見てみますが…
 
 ```
-引数以外の変数を実行時の環境ではなく、
-自身が定義された環境（静的スコープ）において解決することを特徴とする。
-関数とそれを評価する環境のペアであるともいえる。 by wikipedia
+var arr = [1, 2, 3];
+
+arr.forEach(function (item, index, array) {
+  console.log(this); // window
+});
+
+$.each(arr, function () {
+  console.log(this); // 1,2,3...
+});
+```
+
+--
+これも普通に考えると変ですよね？<br>
+jQueryのeachを見に行ってみます。
+
+---
+class: middle, center
+## each in jquery
+```
+function each(obj, callback) {
+  var length,
+      i = 0;
+
+  if (isArrayLike(obj)) {
+    length = obj.length;
+    for (; i < length; i++) {
+      if (callback.call(obj[i], i, obj[i]) === false) { //ここ！
+        break;
+      }
+    }
+  } else {
+    for (i in obj) {
+      if (callback.call(obj[i], i, obj[i]) === false) { //ここ！
+        break;
+      }
+    }
+  }
+
+  return obj;
+}
 ```
 
 ---
 class: middle, center
-簡単な例
+## callで束縛されていた！
+
+というだけでした。<br>
+今ならなんとなくは理解できるのではないかと思います。
+
+あまりcall/apply/bindを乱用すると訳が分からなくなるので、<br>
+jqueryのthisの束縛に関しては.marker[負の遺産]と表現する人もおられます。
+
+ご注意を！
+
+---
+class: middle, center
+
+# 2 closure
+
+.u-tal[
+引数以外の変数を実行時の環境ではなく、自身が定義された環境（静的スコープ）において解決することを特徴とする。関数とそれを評価する環境のペアであるともいえる。<br>
+by wikipedia
+]
+---
+class: middle
+#### 簡単な例
 
 ```
 var increment = (function() {
@@ -467,9 +537,9 @@ var increment = (function() {
 他の言語だと`private hoge`にあたるプライベートな変数となります。
 
 ---
-class: middle, center
+class: middle
 
-ちょっと深めな使い方例
+#### ちょっと深めな使い方例
 
 ```
 function nameToAge(name) {
@@ -489,8 +559,8 @@ function nameToAge(name) {
 なので一度定義したらそれを使い回すようにします。
 
 ---
-class: middle, center
-
+class: middle
+#### 書き換えてみると…
 ```
 var nameToAge = (function() {
    var list = {
@@ -813,21 +883,30 @@ JavaScript におけるすべてのオブジェクトは Object に由来しま�
 by MDN
 
 ---
-class: middle, center
-
-# 前置き
----
 class: middle
-.marker[functionを宣言すると内部的にFunctionオブジェクトがnewされる。]
+.marker[functionを宣言するとObjectによってFunctionオブジェクトがnewされる。]
 
-そして.marker[全てのオブジェクトはprototypeプロパティ]を持つ。
+.marker[Objectによって作られたのでObject.prototypeを継承している]。
 
-prototypeは.marker[生成時に.__proto__に参照がセット]され、これらは一致する。
+prototypeは.marker[インスタンス生成時に]`__proto__`.marker[に参照がセット]され、これらは一致する。
 
 ```
-function hoge(){} // この時点でFunctionオブジェクトが生成され初期化されている
- console.log(hoge.prototype); // log Object {}
- console.log(hoge.prototype === hoge.__proto__); // true
+function Hoge(){} // この時点でFunctionオブジェクトが生成され初期化されている
+console.log(Hoge.prototype); // Hoge {}
+
+var hoge = new Hoge(); // Hoge.prototypeへの参照持つオブジェクトを作成
+console.log(hoge.prototype); // undefined
+
+console.log(Hoge.prototype === hoge.__proto__); // true
+console.log(Hoge.prototype === hoge.prototype); // false
+console.log(Hoge === hoge); // false
+
+var fuga = Object.create(Hoge); // Hoge.prototypeを持つ新しいオブジェクトを生成
+console.log(fuga.prototype); // Hoge {}
+
+console.log(Hoge.prototype === fuga.__proto__); // false
+console.log(Hoge.prototype === fuga.prototype); // true
+console.log(Hoge === fuga); // false
 ```
 
 ---
@@ -904,26 +983,26 @@ console.log(Test.__proto__.__proto__.__proto__); // null
 ```
 
 ---
+class: middle, center
+# よく分からなすぎてつらい
 
-Test.hasOwnProertyは使用できますが、これはようするに、<br>
-`Test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')`<br>
-ここまでprototypeが参照を遡っているということです。<br>
-Function.prototypeを参照して、Object.prototypeを参照してその先がないのでnullとなります。<br>
-
-これがprototype chainです。
-はい、よくわかりませんね。ええ。
+.small[大事な事なので(ry]
 
 ---
-class: middle, center
+class: middle
+
+.markerIn.tac[
 ### コンストラクタの利用
+]
 
-`new`キーワードを付けて生成することで、実現可能です。
-newをつけない場合ただの関数として機能します。
-ここでもnewをつけるかつけないかでthisの参照が変わることになります。
-またコンストラクタを利用する事を明示するためにそういう利用のされ方を想定している物はUpper Camelでの命名を利用する慣例があります。
+`new`キーワードを付けて生成することで、実現可能です。<br>
+newをつけない場合ただの関数として機能します。<br>
+ここでもnewをつけるかつけないかでthisの参照が変わることになります。<br>
+thisの所でも記載しましたが、コンストラクタを利用する事を明示するためには<br>
+.marker[Upper Camel]の命名にしましょう！
 
 ---
-class: middle, center
+class: middle
 ```
 function Hoge() {
     this.count = 0;
@@ -945,31 +1024,28 @@ hoge.fuga(); // a 1 count 1
 hoge.fuga(); // a 2 count 2
 fuga.fuga(); // a 3 count 1
 fuga.fuga(); // a 4 count 2
-console.log(hoge.a); // 4 Hoge.__proto__.aを参照しています。
-console.log(fuga.a); // 4 Hoge.__proto__.aを参照しています。
+console.log(hoge.a , fuga.a); // 4  4 共にHoge.__proto__.aを参照しています。
 ```
 
----
+.small[
 この場合hogeはcountプロパティを持つオブジェクトを生成します。
 hogeとfugaのprototypeはインスタンス化する時点のHoge.prototypeの値です。
+定義されたprototypeの中身は共通化されます。
+その一方でconstructor内で定義した値はそのオブジェクトに紐付いていて、`new`したタイミングで初期化されます。
+]
+---
+class: middle
+## おまけ(prototypeの定義方法)
 
-このコードを見れば分かりますが、functionのprototypeの中身は共通化されます。
-その一方でconstructor内で定義した物はそのオブジェクトに紐付いていて、
-new　したタイミングで初期化されます。
+`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.prototype.hoge = ...`という定義を行うようにしましょう。
 
 ---
 class: middle
-## おまけ
-
-`Hoge.prototype = {...}`というような記載は既に定義されているprototypeを上書きしてしまいますのでよくありません。タイプ数は押しまず`Hoge.hoge = ...`という定義を行うようにしましょう。
-
----
-class: middle
-## おまけ2
+## おまけ2(Object.create)
 
 #### Object.create
 
-このメソッドを呼び出すと、新しいオブジェクトが生成されます。関数の最初の引数が、このオブジェクトのプロトタイプになります。
+最初のサンプルで使用していますが、このメソッドを呼び出すと、新しいオブジェクトが生成されます。関数の最初の引数が、このオブジェクトのプロトタイプになります。
 
 ```
 var a = {a: 1}; 
@@ -985,7 +1061,184 @@ var c = Object.create(b);
 
 ---
 class: middle, center
-## おわりに
-prototypeはjavascriptの中々の関門だと思いますが、ある程度把握しておくことは大事だと思います。
-今回の説明だけでもまだまだ概要と仕組みを話しただけで、使われ方に関しては擬似クラスのような利用方法もあるので語るべきことは多くあります。
+# おわりに
+
+---
+class: middle, center
+# よく分からなすぎてつらい
+
+.small[大事な事なので(ry]
+
+---
+class: middle, center
+# Final Object Quest
+
+---
+class: middle
+
+.u-tac[
+## prototype chainを職業ツリーに例えてみる。
+]
+
+- .hoge = その職業の時のみ使用できるスキル（固有スキル）
+- .prototype.hoge = 転職しても引き継がれるスキル（継承スキル）
+
+.borderBox[
+オブジェクトはプロトタイプと呼ばれる、他のオブジェクト（または null ）への内部的な繋がりを持っています。
+このプロトタイプオブジェクトは、あるオブジェクトがそのプロトタイプとして nullを持つまで、プロトタイプを継承します。
+このような、オブジェクトが他のオブジェクトのプロトタイプとなる連鎖を、プロトタイプチェーンと呼びます。
+by MDN
+]
+
+Object(見習い) = 初期キャラクタ状態。
+
+全てのキャラクターは必ず見習い(Object)から始まる。
+
+---
+
+#### Object（見習い）
+
+```
+var obj = new Object();
+```
+
+
+.small[
+見習いは全てのキャラクターが作成された場合の初期職業です。
+
+##### 固有スキル
+
+こいつの固有スキルはややこしいので省略。
+
+##### 継承スキル（一部）
+
+- toString();
+- hasOwnProperty();
+]
+
+---
+#### Function(マモノ使い)
+
+```
+var func = new Function();
+```
+
+.small[
+マモノ使いには見習い（Object）のジョブをマスターしている必要がある。<br>
+（これはシステム的に決まっている）
+
+##### 固有スキル（一部）
+
+- name
+- length
+
+##### 継承スキル（一部）
+
+- toString() 見習いから継承されているが、ここでスキル内容が別のものに強化（上書き）される。
+- apply()
+
+#### 継承されているスキル（一部）
+
+- toString(); 見習い（Object)から継承されたスキル
+- hasOwnProperty(); 見習い（Object)から継承されたスキル
+]
+
+---
+
+#### 自分で職業を定義してWizardを作る
+
+```
+function Wizard(){
+    this.thunder = 'thunder' // 固有スキル
+}
+
+Wizard.prototype.fireball = 'fireball' // 継承スキル
+```
+
+--
+
+#### 上級職のHiWizardを作る
+
+```
+function HiWizard(){
+    this.thunderStorm = 'thunderStorm'; // 固有スキル
+}
+
+// こいつはWizardから転職するよという定義
+Object.setPrototypeOf(HiWizard.prototype, Wizard.prototype);
+
+HiWizard.prototype.volcano = 'volcano'; // 継承スキル
+```
+
+
+---
+
+### 使ってみる
+
+```
+var wiz = new Wizard();
+console.log(wiz.thunder);
+console.log(wiz.fireball);
+
+var hiWiz = new HiWizard();
+console.log(hiWiz.thunder); // undefined Wizardの固有スキル
+console.log(hiWiz.fireball); // fireball Wizardの継承スキル
+console.log(hiWiz.thunderStorm); // thunderStorm HiWizardの固有スキル
+console.log(hiWiz.volcano); // volcano HiWizardの継承スキル
+```
+
+上手くいきました。<br>
+`Object.setPrototypeOf(子.prototype、親.prototype)`で子に親の<br>
+prototypeを継承させることにより親子関係を定義する事ができます。
+---
+
+### Wizardのプロトタイプチェーン
+
+```
+console.log(hiWiz.__proto__); // HiWizard { volcano: 'volcano' }
+console.log(hiWiz.__proto__.__proto__); // Wizard { fireball: 'fireball' }
+console.log(hiWiz.__proto__.__proto__.__proto__); // {}
+```
+
+インスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+
+```
+console.log(Wizard); // Function Wizard
+console.log(Wizard.__proto__); // Function
+console.log(Wizard.__proto__.__proto__); // Object
+```
+
+インスタンスを生成する前の`Wizard`自体はFunctionです。
+インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
+
+---
+class: middle, center
+## どうでしたか？
+
+---
+class: middle, center
+## さらに深堀りしていくときりが無いので一旦ここまでにします。
+---
+class: middle, center
+
+# おわりに
+
+正直何をどこまで説明すれば良いのかがわからずで、<br>
+いろいろ中途半端だったらすみません…。
+
+今回の話をもっとちゃんと理解した方が良い所や、<br>
+他のアプローチもあったりするので、<br>
+がんがん今回をきっかけにして深堀りして頂けると嬉しいです。
+
+---
+class: middle, center
+
+# ありがとうございました！
+<br>
+<br>
+.u-tar[
+thisから始まるjavascript
+
+~Fin~
+]
 
