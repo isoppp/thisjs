@@ -28,8 +28,8 @@ $.each(arr, function () {
 ```
 
 --
-これも普通に考えると変ですよね？<br>
-jQueryのeachを見に行ってみます。
+これも何か変ですよね？<br>
+せっかくなのでjQueryのeachを見に行ってみます。
 
 ---
 class: middle, center
@@ -63,7 +63,7 @@ class: middle, center
 ## callで束縛されていた！
 
 というだけでした。<br>
-今ならなんとなくは理解できるのではないかと思います。
+きっと今なら理解できるのではないかと思います。
 
 あまりcall/apply/bindを乱用すると訳が分からなくなるので、<br>
 jqueryのthisの束縛に関しては.marker[負の遺産]と表現する人もおられます。

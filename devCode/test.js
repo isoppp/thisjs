@@ -47,5 +47,3 @@ for (var o in arr) {
 }
 
 console.log(typeof null === 'object');
-
-

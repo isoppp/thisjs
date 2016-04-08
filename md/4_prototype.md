@@ -13,12 +13,21 @@ JavaScript におけるすべてのオブジェクトは Object に由来しま�
 すべてのオブジェクトはObject.prototype からメソッドとプロパティを継承しています。<br>
 by MDN
 
+.borderBox.small.u-tal[
+.small[
+.tips[TIPS]<br>
+例外として、下記の方法で生成することでprototype継承を行わないオブジェクト生成も可能です。
+```
+var o = Object.create(null);
+console.log(o.__proto__); // undefined
+```
+]
+]
+
 ---
 class: middle
-.marker[functionを宣言するとObjectによってFunctionオブジェクトがnewされる。]
-
-.marker[Objectによって作られたのでObject.prototypeを継承している]。
-
+#### Example
+.marker[functionを宣言すると宣言した時点でFunctionインスタンスがnewされる]。<br>
 prototypeは.marker[インスタンス生成時に]`__proto__`.marker[に参照がセット]され、これらは一致する。
 
 ```
@@ -64,7 +73,8 @@ class: middle, center
 ## prototype chain
 
 ---
-class: middle
+class:
+### prototype chain とは
 .borderBox[
 オブジェクトはプロトタイプと呼ばれる、他のオブジェクト（または null ）への内部的な繋がりを持っています。
 このプロトタイプオブジェクトは、あるオブジェクトがそのプロトタイプとして nullを持つまで、プロトタイプを継承します。
@@ -74,7 +84,7 @@ by MDN
 
 --
 
-nullになるまでprototypeを辿っていくという話。<br>
+nullになるまでプロトタイプを辿っていくという話。<br>
 nullになるのはObject.prototypeをさらに辿った場合にnullとなる。
 
 それ自身が保持しているのか、というのを調べる`hasOwnProperty`という関数がある。<br>
@@ -93,20 +103,20 @@ class: middle, center
 function Test(){}
 var test = new Test();
 
-// 1. Test自身がhasOwnPropertyを持っているかを調べる 
+// 1. test自身がhasOwnPropertyを持っているかを調べる 
 console.log(test.hasOwnProperty('hasOwnProperty')); // false
 
-// 2. TestのprototypeがhasOwnPropertyを持っているかを調べる
+// 2. testのprototypeがhasOwnPropertyを持っているかを調べる
  console.log(test.__proto__.hasOwnProperty('hasOwnProperty')); // false
 
 // 3. 実は1と2って同じという話
  console.log(test.hasOwnProperty === test.__proto__.hasOwnProperty); // true
 
-// 4. Test.__proto__.__proto___ は元のObjectを指している
+// 4. test.__proto__.__proto___ は元のObjectを指している
  console.log(test.__proto__.__proto__); // {}
  console.log(test.__proto__.__proto__.hasOwnProperty('hasOwnProperty')); // true
 
-// 5. Test.__proto__.__proto__.__proto__ はオブジェクトまで遡ったためnullを返す
+// 5. test.__proto__.__proto__.__proto__ はオブジェクトまで遡ったためnullを返す
 // どこから参照してもここまで辿って参照を探しに行きます。
 console.log(test.__proto__.__proto__.__proto__); // null
 
@@ -240,7 +250,7 @@ Object(見習い) = 初期キャラクタ状態。
 #### .marker[Object（見習い）]
 
 ```
-var obj = new Object();
+Object
 ```
 
 
@@ -333,12 +343,18 @@ console.log(hiWiz.volcano); // volcano HighWizardの継承スキル
 prototypeを継承させることにより親子関係を定義する事ができます。
 ---
 
-### Wizardのプロトタイプチェーン
+### Functionの定義とそれにより生成されるインスタンス
 
-.small[無理やりな説明な分この辺ややこしくなります。すみません…]
+.small[
+無理やりな説明な分この辺ややこしくなります。すみません…
 
-`new`でインスタンスを生成するとオブジェクトが返されるのでマモノ使い（Function)は含まれません。
+`new`でインスタンスを生成して返されたオブジェクトと
+職業を定義したFunctionは全く別の話で継承ツリーも異なります。
+（ここはどれだけ好きでも一度ゲーム脳から帰ってきてください）
+]
 
+--
+生成されたオブジェクト
 ```
 console.log(hiWiz.__proto__); // HighWizard { volcano: 'volcano' }
 console.log(hiWiz.__proto__.__proto__); // Wizard { fireball: 'fireball' }
@@ -347,13 +363,55 @@ console.log(hiWiz.__proto__.__proto__.__proto__); // {}
 
 --
 
-インスタンスを生成する前の`Wizard`自体はFunctionです。
-インスタンスを生成して返ってくるobjectは生成されたObjectとなります。
+Functionオブジェクト
 
 ```
 console.log(Wizard); // Function Wizard
 console.log(Wizard.__proto__); // Function
 console.log(Wizard.__proto__.__proto__); // Object
+```
+
+---
+### どういうことかというと…
+
+この資料を作るときにArrayを例にあげようとしました。
+MDNを参考にArrayの継承ツリーを確認するとFunctionとObjectが継承されていると書かれています。
+
+なので書きのようなサンプルを作った所問題が起きた
+
+```
+var arr = new Array(1,2,3);
+
+console.log(arr.length); // from Array
+console.log(arr.__proto__); // []
+console.log(arr.__proto__.__proto__); // {}
+console.log(arr.__proto__.__proto__.__proto__); // null
+
+// MDNの継承の中にFunctionから継承されていそうな記載があるけどundefined
+console.log(arr.displayName); // undefined
+console.log(arr.bind); // undefined
+console.log(arr.name); // undefined
+```
+
+何故…？
+
+---
+### 原因はというと
+
+Arrayによって生成されるオブジェクトとArrayという関数が頭の中で混ざっていた。
+```
+var arr = new Array(1,2,3);
+```
+
+配列なんだからこの`arr`に色々継承されているんでしょーと意気揚々としていたものの、
+Arrayのページで説明されているのはArrayという組み込みの関数の話だった。
+
+```
+// ArrayというFunction定義なので
+// Function(ArrayというFunction Object) --> Function --> Object;
+console.log(Array.__proto__); //Function(ArrayというFunction Object)
+console.log(Array.__proto__.__proto__); // Function
+console.log(Array.__proto__.__proto__.__proto__); //Object
 ```
 
 ---

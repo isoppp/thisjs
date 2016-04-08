@@ -9,11 +9,11 @@ class: middle
 元々はゲームの音屋さん。<br>
 仕事が暇すぎて何か色々手を出し初めて...
 
-- pythonでターミナルで動く[マスターマインド](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%9E%E3%82%A4%E3%83%B3%E3%83%89)作る
+- pythonでターミナルで動くマスターマインド作る
 - Unityでアプリを作る（C#)
-- この間ハイパー雑用係として色々何かやる
+- この間ハイパー雑用係として何か色々やる
 - Titanium mobileでアプリを作る(javascript)
-- Web楽しそうでWebに業界にダイブしてみる。<br>
+- Web楽しそうだったので勢いでWeb業界にダイブしてみる。<br>
 - ~~jsつらい…（今ここ）~~
 ---
 class: middle,center

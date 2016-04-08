@@ -111,15 +111,22 @@ class: middle, center
 .markerSIn[
 ## 「.marker[thisの種類は4種類]」<br>
 ]
-間違いなくテストにでます
+間違いなくテストにでます。
+
+<br>
+.small[
+.small[
+(正確には.marker[thisの設定のされ方のパターン]です)
+]
+]
 
 ---
 class: middle, center
-# と、その前に.marker[globalのthis]の話
+# と、その前に<br>.marker[グローバルのthis]の話
 
 ---
 .u-tac[
-### globalのthis
+### グローバルのthis
 ]
 
 Q1
@@ -128,7 +135,7 @@ Q1
 console.log(this === window); //true
 ```
 
-ブラウザで実行するとglobalのthisはwindowオブジェクトになります。
+ブラウザで実行すると`this`は`window`オブジェクトを参照します。
 
 ```javascript
 console.log(this); // window object
@@ -136,7 +143,7 @@ console.log(this); // window object
 --
 .borderBox[
 .tips[TIPS]<br>
-これはブラウザではglobalにwindowオブジェクトが定義されているためで、javascriptのglobalはwindowだ、という理解では間違っています。例えばですが、node.jsでは異なる定義がされています。<br>
+これはブラウザではグローバルオブジェクトにグローバルオブジェクト自身を参照する`window`プロパティが定義されているためで、javascriptのグローバルは`window`だ、という理解では間違っています。例えばですが、node.jsでは異なる定義がされています。<br>
 気になる方は`node`→`console.log(this);`してみてください。
 ]
 ---
@@ -161,7 +168,12 @@ function q2(){
 q2(); // true
 ```
 
-function hoge...として定義された.marker[関数の中のthisはglobal]を参照します。
+function hoge...として定義された.marker[関数の中のthisはグローバル]を参照します。
+
+.borderBox[
+.tips[TIPS]<br>
+ただし、node(CommonJS)やES6のモジュールで定義された関数の場合は`undefined`になります。
+]
 
 ---
 class: middle, center
@@ -183,18 +195,25 @@ var q3 = {
 q3.q3m(); // false
 ```
 
-オブジェクトの中に定義された.marker[メソッドのthis参照はそのオブジェクトがthis]として返されます。この場合はq3がthisとして返されます。
+.marker[メソッドとして呼び出された関数のthisはそのオブジェクトがthis]として設定されます。この場合はq3がthisとして返されます。
 
 ---
 class: middle, center
 ## 関数とメソッド
 
 関数とメソッドの差がよく分からない？<br>
-簡単に説明するなら.marker[呼び出す時の記載方法]をイメージすると良いです。
+.marker[呼び出す時の記載方法]をイメージします。
 
 ```javascript
-xxx.yyy(); // メソッド
-yyy(); // 関数
+var q3 = {
+    q3m: function(){
+        console.log(this === window);
+    }
+};
+
+q3.q3m(); // false メソッドとしての呼び出し
+var q3m = q3.q3m; // メソッドを変数に代入
+q3m(); // true 関数としての呼び出し
 ```
 
 ---
@@ -215,17 +234,32 @@ function Q4(){
 new Q4(); // false
 ```
 
-`new`で.marker[新しくインスタンスを生成する場合、その中のthisは生成されるインスタンス]を指します。<br>
-この場合は`Q4`を指します。
+.marker[コンストラクタ関数の中のthisは生成されたインスタンス]を指します。<br>
+この場合は`new Q4()`によって生成されるインスタンスを指します。
 
---
-
-.borderBox[
-.tips[TIPS]<br>
-`new`するかしないかでthisの参照が変わってしまうため、`new`を付けて.marker[新しくインスタンスを生成をして利用すべき物はUpper Camelの命名]が使われる慣例があります。
+---
+.u-tac[
+### コンストラクタ小話
 ]
 
+1. `new`をつけて呼び出すとコンストラクタが実行され新しいインスタンスを生成する。<br>
+2. `new`しないと関数として動作する。
 
+ということは.marker[どちらかによって`this`の参照先が変化]するということ。
+
+__命名__<br>
+`new`つけて使ってくれ！という意思表示をしたい場合には、<br>
+.marker[Upper Camelの命名]にする慣例があります。
+
+__インスタンスのチェック__<br>
+命名をつけた所で`new`をつけ忘れる場合があるということで、関数側で.marker[newが無くてもinstanceを生成するようにする]ことも慣例となっているようです。
+
+```
+function Q4(){
+    if (!(this instanceof Q4)) return new Q4();
+}
+
+```
 
 ---
 class: middle
@@ -267,9 +301,9 @@ new Q4(); // false
 
 --
 
-### は？関数じゃねえじゃん。
+### は？どこの事いってんの？
 
-って思うでしょ。その通りです。
+って思うでしょ
 
 ---
 class: middle, center
@@ -282,8 +316,8 @@ function Hoge(){
 }
 ```
 
-これはclass構文がないからであって<br>
-.small[(内部的にはprototype.constructorがHogeを参照する)]
+これはclass構文ではないので分かりにくいですが…<br>
+.small[(内部的には`new`で呼び出された場合はその関数自身がconstructorとして扱われる)]
 
 ---
 class: middle, center
@@ -297,7 +331,7 @@ class Hoge{
 }
 ```
 
-class構文が導入されたので関数で実装できるようになりました。
+class構文が導入されたので分かりやすくなりました。
 
 ---
 class: middle, center
@@ -321,7 +355,7 @@ applyやcallすると.marker[apply(xxx)の引数の中身でthisを束縛]しま
 ---
 
 .u-tac[
-# ４種類のthis
+# 4種類のthis
 ]
 
 --
@@ -346,18 +380,79 @@ applyやcallすると.marker[apply(xxx)の引数の中身でthisを束縛]しま
 .marker[__4. call applyパターン__]<br>
 `function.call(hoge)`/`function.apply(hoge)`はfunctionに渡すthisを束縛する。
 
+---
+class: middle, center
+と、みせかけて…
+# 5種類のthis(ES6)
+.small[.small[ファッ！？]]
 
+---
+# ES6
 
+- let(ローカル変数宣言）
+- const（定数宣言)
+- for...of（valueのループ）
+- Symbol(不変なインスタンスの型)
+- \`\`(テンプレートストリング)
+- function(val = 0)（デフォルト引数）
+- {}（ブロックスコープ）
+- function(...hoge)（名前が分からない）
 
+などなど色々な物が増えています。<br>
+が、ES6については深くは触れません。<br>
+今回はthisの話になります。
 
+---
+class: middle, center
+# .marker[thisで重要なのはアロー関数]
 
+.small[.small[アローファンクションとかファットアローとか言われます。]]
+---
+class: middle, center
+# () => {}
 
+---
+class: middle, center
+.rotate90[
+# () => {}
+]
 
+.small[.small[何か顔に見えますね…]]
 
+---
+#### arrow functionにおけるthis
 
+```
+function TimeCount() {
+  this.time = 0;
 
+  setInterval(function () {
+    console.log('1',this.time); // undefined
+  }, 1000);
 
+  // self/that等で解消していた
+  var self = this;
+  self.selfTime = 0;
+  setInterval(function () {
+    self.selfTime++;
+    console.log('2',self .selfTime); // 1..2..3..
+  }, 1000);
 
+  // arrow functionは関数が定義されたスコープを参照する
+  setInterval(() => {
+    this.time++;
+    console.log('3',this.time); // 1..2..3..
+  }, 1000);
+}
 
+var time = new TimeCount();
+```
 
+---
+class: middle, center
+と、いうことで…
 
+## .marker[ES5は4]種類
+## .marker[ES6は5]種類
+
+でした。
