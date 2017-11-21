@@ -837,7 +837,7 @@ typeof Math.sin
 
 --
 
-答え:object
+答え:function
 
 --
 
@@ -848,7 +848,7 @@ typeof Math.sin
 
 ---
 .u-tac[
-## Null
+## null
 ]
 
 #### 問題. 結果はなんでしょう
